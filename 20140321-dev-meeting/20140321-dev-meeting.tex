@@ -1,0 +1,129 @@
+%\documentclass[gray,handout, pdftex, 11pt]{beamer}
+%\documentclass[handout, pdftex, 11pt]{beamer}
+\documentclass[pdftex, 11pt]{beamer}
+
+\usepackage{pgfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{acronym}
+\usepackage{array}
+%\usepackage{natbib}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+
+\usepackage{appendixnumberbeamer}
+
+\mode<presentation>{
+  %-------------------------1
+  \usetheme{Boadilla}
+  \usecolortheme{beaver}
+  %-------------------------1
+  %-------------------------2
+  %\usetheme{Goettingen}
+  %\usecolortheme{sidebartab}
+  %-------------------------2
+  %\useoutertheme[right]{sidebar}
+  %\usefonttheme{default}
+  \setbeamercovered{transparent}
+  %\setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{navigation symbols}{}
+
+  \bibliographystyle{abbrv}  
+  %\renewcommand\bibfont{\scriptsize}
+  \setbeamertemplate{bibliography item}{\textbullet}
+  \setbeamertemplate{itemize item}{\checkmark}
+  \setbeamertemplate{itemize subitem}{-}
+  \setbeamertemplate{enumerate items}[default]
+  \setbeamertemplate{sections/subsections in toc}[square]
+}
+
+%stili
+\tikzstyle{linea}=[draw, green]
+\tikzstyle{service}=[very thick, draw, blue]
+\tikzstyle{modulo}=[very thick, draw, red]
+\tikzstyle{vettore}=[->, thick, >=stealth', draw, green]
+\tikzstyle{asse}=[->, thick, >=stealth', draw, black]
+\tikzstyle{lab}=[blue]
+\tikzstyle{graffa}=[draw=blue, decorate,decoration={brace,amplitude=10pt}]
+
+
+\newcommand{\frecciadx}{~{\tikz[baseline] \draw[freccia] (0,0.5ex) --
+  (5.5ex,0.5ex);}~}
+
+
+\title[Progress report]{\textbf{PROGRESS REPORT}}
+\subtitle{tkLayout developers meeting}
+\institute[CERN]{
+  %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
+  %\\[0.2cm]
+  European Organization for Nuclear Research\\[0.5cm]
+  \includegraphics[width=2cm]{img/LogoBadge.pdf}\\
+}
+
+\author[Stefano Martina]{
+  %\\[0.2cm]
+  \textbf{Stefano MARTINA}\\
+  {\small stefano.martina@cern.ch}
+}
+
+\date[\today]{\flushright \today}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Calcolo del \alert{$\rho$ minimo} di un poligono
+    \begin{itemize}
+    \item Si \alert{elimina} la dimensione \alert{$Z$} su ogni vertice
+    \item Per \alert{ogni lato} del poligono proiettato si calcola:\\
+      \begin{center}
+      \begin{tikzpicture}[scale=0.5]
+        % assi
+        \path[asse] (-2cm, 0cm) to (4.5cm, 0cm) node[below]{$X$};
+        \path[asse] (0cm, -1cm) to (0cm, 5cm) node[left]{$Y$};
+        
+        % coordinate
+        \coordinate[label=above:{$P$}] (P) at (2cm, 3cm);
+        \coordinate[label=above:{$R$}] (R) at (4cm, 4cm);
+        \coordinate[label=above left:{$Q$}] (Q) at (-1cm, 1.5cm);
+        \coordinate[label=below left:{$O$}] (O) at (0cm, 0cm);
+
+        % modulo
+        \path[modulo] (P) to (R);
+        
+        % vettori
+        \path[vettore] (P) to (Q);
+        \path[vettore] (O) to (P);
+        \path[vettore] (O) to (Q);
+
+        % graffa
+        \path[graffa] (Q) to node[lab, above=3mm]{$d_P$} (P);
+      \end{tikzpicture} 
+      \end{center}
+      \begin{align*}
+        d_P &= \overrightarrow{PO} \cdot \hat{RP}&\overrightarrow{PQ} &= d_P \cdot \hat{RP}\\
+        d_R &= \overrightarrow{RO} \cdot \hat{RP}&\overrightarrow{OQ} &= \overrightarrow{PQ} - \overrightarrow{OP}
+      \end{align*}
+      \begin{itemize}
+      \item Se \alert{$d_P > 0$} e \alert{$d_R > 0$}, si prende $\rho$
+        di $P$, ossia \alert{$||\overrightarrow{OP}||$}
+      \item Se \alert{$d_P < 0$} e \alert{$d_R < 0$}, si prende $\rho$
+        di $R$, ossia \alert{$||\overrightarrow{OR}||$}
+      \item \alert{Altrimenti} $Q$ \`e all'interno del lato e si
+        prende $\rho$ di $Q$, ossia \alert{$||\overrightarrow{OQ}||$}
+      \end{itemize}
+    \end{itemize}
+  \item Ristrutturazione \alert{Usher}?
+  \end{itemize}
+\end{frame}
+
+\end{document}

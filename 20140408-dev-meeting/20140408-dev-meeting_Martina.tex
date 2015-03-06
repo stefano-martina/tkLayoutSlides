@@ -1,0 +1,278 @@
+%\documentclass[gray,handout, pdftex, 11pt]{beamer}
+%\documentclass[handout, pdftex, 11pt]{beamer}
+\documentclass[pdftex, 11pt]{beamer}
+
+\usepackage{pgfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{acronym}
+\usepackage{array}
+%\usepackage{natbib}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+
+\usepackage{appendixnumberbeamer}
+
+\mode<presentation>{
+  %-------------------------1
+  \usetheme{Boadilla}
+  \usecolortheme{beaver}
+  %-------------------------1
+  %-------------------------2
+  %\usetheme{Goettingen}
+  %\usecolortheme{sidebartab}
+  %-------------------------2
+  %\useoutertheme[right]{sidebar}
+  %\usefonttheme{default}
+  \setbeamercovered{transparent}
+  %\setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{navigation symbols}{}
+
+  \bibliographystyle{abbrv}  
+  %\renewcommand\bibfont{\scriptsize}
+  \setbeamertemplate{bibliography item}{\textbullet}
+  \setbeamertemplate{itemize item}{\checkmark}
+  \setbeamertemplate{itemize subitem}{-}
+  \setbeamertemplate{enumerate items}[default]
+  \setbeamertemplate{sections/subsections in toc}[square]
+}
+
+%stili
+\tikzstyle{linea}=[draw, green]
+\tikzstyle{service}=[very thick, draw, blue]
+\tikzstyle{newService}=[very thick, draw, red]
+\tikzstyle{modulo}=[thick, draw, black]
+\tikzstyle{freccia}=[->, very thick, >=stealth', draw, red]
+
+
+\newcommand{\frecciadx}{~{\tikz[baseline] \draw[freccia] (0,0.5ex) --
+  (5.5ex,0.5ex);}~}
+
+\title[Progress report]{\textbf{PROGRESS REPORT}}
+\subtitle{tkLayout developers meeting}
+\institute[CERN]{
+  %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
+  %\\[0.2cm]
+  European Organization for Nuclear Research\\[0.5cm]
+  \includegraphics[width=2cm]{img/LogoBadge.pdf}\\
+}
+
+\author[Stefano Martina]{
+  %\\[0.2cm]
+  \textbf{Stefano MARTINA}\\
+  {\small stefano.martina@cern.ch}
+}
+
+\date[\today]{\flushright \today}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    \begin{tikzpicture}
+      \newcommand*{\modl}{2mm};
+      \newcommand*{\delp}{0.15mm};
+      \newcommand*{\modd}{1.7mm};
+      \newcommand*{\delg}{1mm};
+      \newcommand*{\dell}{3mm};
+      \newcommand*{\drawBarrel}{
+        % inner rod
+        \draw let \p1=(base) in coordinate (modStart) at ({\x1+(\modd*\i)},{\y1 + (\dell*\l) + (\delp*pow(-1,\i))});
+        \draw let \p1=(base) in coordinate (modEnd) at ({\x1+(\modd*\i)+\modl},{\y1 + (\dell*\l) + (\delp*pow(-1,\i))});
+        \path[modulo] (modStart) to (modEnd);
+        
+        % outer rod
+        \draw let \p1=(base) in coordinate (modStart) at ({\x1+(\modd*\i)},{\y1+\delg + (\dell*\l) + (\delp*pow(-1,\i))});
+        \draw let \p1=(base) in coordinate (modEnd) at ({\x1+(\modd*\i)+\modl},{\y1 + (\dell*\l) + \delg+(\delp*pow(-1,\i))});
+        \path[modulo] (modStart) to (modEnd);
+      }
+      \newcommand*{\drawEndcap}{
+        % inner rod
+        \draw let \p1=(base) in coordinate (modStart) at ({\x1 + (\dell*\l) + (\delp*pow(-1,\i))}, {\y1+(\modd*\i)});
+        \draw let \p1=(base) in coordinate (modEnd) at ({\x1 + (\dell*\l) + (\delp*pow(-1,\i))}, {\y1+(\modd*\i)+\modl});
+        \path[modulo] (modStart) to (modEnd);
+        
+        % outer rod
+        \draw let \p1=(base) in coordinate (modStart) at ({\x1+\delg + (\dell*\l) + (\delp*pow(-1,\i))}, {\y1+(\modd*\i)});
+        \draw let \p1=(base) in coordinate (modEnd) at ({\x1 + (\dell*\l) + \delg+(\delp*pow(-1,\i))}, {\y1+(\modd*\i)+\modl});
+        \path[modulo] (modStart) to (modEnd);
+      }
+
+
+      % barrel 1
+      \coordinate (base) at (0cm,0cm);
+      
+      \foreach \l in {0,...,2}{
+        \foreach \i in {0,...,6}{
+          \drawBarrel
+        }
+      }
+      
+      % barrel 2
+      \coordinate (base) at (0cm,1.5cm);
+      
+      \foreach \l in {0,...,2}{
+        \foreach \i in {0,...,15}{
+          \drawBarrel
+        }
+      }
+      
+      % barrel 3
+      \coordinate (base) at (0cm,2.8cm);
+      
+      \foreach \l in {0,...,2}{
+        \foreach \i in {0,...,18}{
+          \drawBarrel
+        }
+      }
+
+      % endcap 1
+      \coordinate (base) at (2cm,0cm);
+      
+      \foreach \l in {0,...,10}{
+        \foreach \i in {0,...,4}{
+          \drawEndcap
+        }
+      }
+
+      % endcap 2
+      \coordinate (base) at (3.8cm,1.5cm);
+      
+      \foreach \l in {0,...,10}{
+        \foreach \i in {0,...,10}{
+          \drawEndcap
+        }
+      }
+
+      % endcap 3
+      \coordinate (base) at (5.6cm,0.4cm);
+      
+      \foreach \l in {0,...,4}{
+        \foreach \i in {0,...,3}{
+          \drawEndcap
+        }
+      }
+
+      % basic sections barrels
+      \path<2>[newService] (1.25cm,0cm) to (1.25cm,0.75cm);
+      \path<3->[service] (1.25cm,0cm) to (1.25cm,0.75cm);
+
+      \path<2>[newService] (2.78cm,1.47cm) to (2.78cm,2.22cm);
+      \path<3>[service] (2.78cm,1.47cm) to (2.78cm,2.22cm);
+
+      \path<2>[newService] (3.28cm,2.8cm) to (3.28cm,3.55cm);
+      \path<3->[service] (3.28cm,2.8cm) to (3.28cm,3.55cm);
+
+      % basic sections endcaps
+      \path<2>[newService] (2cm,0.9cm) to (5.15cm,0.9cm);
+      \path<3>[service] (2cm,0.9cm) to (5.15cm,0.9cm);
+
+      \path<2>[newService] (5.55cm,1.1cm) to (6.9cm,1.1cm);
+      \path<3->[service] (5.55cm,1.1cm) to (6.9cm,1.1cm);
+
+      \path<2>[newService] (3.8cm,3.4cm) to (6.95cm,3.4cm);
+      \path<3>[service] (3.8cm,3.4cm) to (6.95cm,3.4cm);
+
+      % aligned sections barrels
+      \path<3>[newService] (3.28cm,1.47cm) to (3.28cm,2.22cm);
+      \path<4->[service] (3.28cm,1.47cm) to (3.28cm,2.22cm);
+
+      % aligned sections endcaps
+      \path<3>[newService] (2cm,1.1cm) to (5.15cm,1.1cm);
+      \path<4->[service] (2cm,1.1cm) to (5.15cm,1.1cm);\
+
+      \path<3>[newService] (3.8cm,3.6cm) to (6.95cm,3.6cm);
+      \path<4->[service] (3.8cm,3.6cm) to (6.95cm,3.6cm);
+
+      % connectors
+      \path<5>[newService] (1.25cm,0.75cm) |- (2cm,1.1cm);
+      \path<6->[service] (1.25cm,0.75cm) |- (2cm,1.1cm);
+
+      \path<5>[newService] (5.15cm,1.1cm) to (5.55cm,1.1cm);
+      \path<6->[service] (5.15cm,1.1cm) to (5.55cm,1.1cm);
+
+      \path<5>[newService] (3.28cm,2.22cm) to (3.28cm,2.8cm);
+      \path<6->[service] (3.28cm,2.22cm) to (3.28cm,2.8cm);
+
+      \path<5>[newService] (3.28cm,3.55cm) |- (3.8cm,3.6cm);
+      \path<6->[service] (3.28cm,3.55cm) |- (3.8cm,3.6cm);
+
+      %linee periferiche barrels
+      \path<6>[newService] (0cm,0.2cm) to (1.25cm,0.2cm);
+      \path<7->[service] (0cm,0.2cm) to (1.25cm,0.2cm);
+
+      \path<6>[newService] (0cm,0.5cm) to (1.25cm,0.5cm);
+      \path<7->[service] (0cm,0.5cm) to (1.25cm,0.5cm);
+
+      \path<6>[newService] (0cm,0.8cm) to (1.25cm,0.8cm);
+      \path<7->[service] (0cm,0.8cm) to (1.25cm,0.8cm);
+
+
+      \path<6>[newService] (0cm,1.67cm) to (3.28cm,1.67cm);
+      \path<7->[service] (0cm,1.67cm) to (3.28cm,1.67cm);
+      
+      \path<6>[newService] (0cm,1.97cm) to (3.28cm,1.97cm);
+      \path<7->[service] (0cm,1.97cm) to (3.28cm,1.97cm);
+
+      \path<6>[newService] (0cm,2.27cm) to (3.28cm,2.27cm);
+      \path<7->[service] (0cm,2.27cm) to (3.28cm,2.27cm);
+
+
+      \path<6>[newService] (0cm,3cm) to (3.28cm,3cm);
+      \path<7->[service] (0cm,3cm) to (3.28cm,3cm);
+
+      \path<6>[newService] (0cm,3.3cm) to (3.28cm,3.3cm);
+      \path<7->[service] (0cm,3.3cm) to (3.28cm,3.3cm);
+
+      \path<6>[newService] (0cm,3.6cm) to (3.28cm,3.6cm);
+      \path<7->[service] (0cm,3.6cm) to (3.28cm,3.6cm);
+
+      %linee periferiche endcap
+      
+    \end{tikzpicture}
+  \end{center}
+
+  \noindent\begin{minipage}[t]{0.5\linewidth}
+    \begin{enumerate}
+    \item<2-> Si \alert{costruiscono} elementi di base
+    \item<3-> Si \alert{allineano}
+      \begin{itemize}
+      \item<3-> due tipi di allineamento
+      \end{itemize}
+    \item<5-> Si \alert{uniscono}
+    \item<6-> Si costruiscono linee periferiche
+      \begin{itemize}
+      \item<6-> Si creano \alert{stazioni} di trasformazione materiali
+      \end{itemize}
+    \item<7-> Si creano le eventuali stazioni \alert{terminali}
+    \end{enumerate}
+  \end{minipage}%
+  \begin{minipage}[t]{0.5\linewidth}
+    \begin{itemize}
+    \item<8-> Le sezioni sono concatenate con puntatori
+      \begin{itemize}
+      \item<8-> \alert{albero} con radice l'uscita
+      \end{itemize}
+    \item<8-> Vengono mantenuti {riferimenti} tra barrel/endcap e
+      sezione 
+      \begin{itemize}
+      \item<8-> Alla fine riferimenti dal modulo a sezione
+      \end{itemize}
+    \item<8-> Il materiale viene \alert{instradato}
+      \begin{itemize}
+      \item<8-> Pacchetti che \alert{distribuiscono} materiali
+      \end{itemize}
+    \end{itemize}
+  \end{minipage}\par\bigskip
+\end{frame}
+
+\end{document}

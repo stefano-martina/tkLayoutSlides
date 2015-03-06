@@ -1,0 +1,121 @@
+%\documentclass[gray,handout, pdftex, 11pt]{beamer}
+%\documentclass[handout, pdftex, 11pt]{beamer}
+\documentclass[pdftex, 11pt]{beamer}
+
+\usepackage{pgfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+%\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{acronym}
+\usepackage{array}
+%\usepackage{natbib}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+
+\usepackage{appendixnumberbeamer}
+
+\mode<presentation>{
+  %-------------------------1
+  \usetheme{Boadilla}
+  \usecolortheme{beaver}
+  %-------------------------1
+  %-------------------------2
+  %\usetheme{Goettingen}
+  %\usecolortheme{sidebartab}
+  %-------------------------2
+  %\useoutertheme[right]{sidebar}
+  %\usefonttheme{default}
+  \setbeamercovered{transparent}
+  %\setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{navigation symbols}{}
+
+  \bibliographystyle{abbrv}  
+  %\renewcommand\bibfont{\scriptsize}
+  \setbeamertemplate{bibliography item}{\textbullet}
+  \setbeamertemplate{itemize item}{\checkmark}
+  \setbeamertemplate{itemize subitem}{-}
+  \setbeamertemplate{enumerate items}[default]
+  \setbeamertemplate{sections/subsections in toc}[square]
+}
+
+%stili
+\tikzstyle{linea}=[draw, green]
+\tikzstyle{service}=[very thick, draw, blue]
+\tikzstyle{newService}=[very thick, draw, red]
+\tikzstyle{modulo}=[thick, draw, black]
+\tikzstyle{freccia}=[->, very thick, >=stealth', draw, red]
+
+
+\newcommand{\frecciadx}{~{\tikz[baseline] \draw[freccia] (0,0.5ex) --
+  (5.5ex,0.5ex);}~}
+
+\title[Progress report]{\textbf{PROGRESS REPORT}}
+\subtitle{tkLayout developers meeting}
+\institute[CERN]{
+  %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
+  %\\[0.2cm]
+  European Organization for Nuclear Research\\[0.5cm]
+  \includegraphics[width=2cm]{img/LogoBadge.pdf}\\
+}
+
+\author[Stefano Martina]{
+  %\\[0.2cm]
+  \textbf{Stefano MARTINA}\\
+  {\small stefano.martina@cern.ch}
+}
+
+\date[\today]{\flushright \today}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Test}
+    \begin{itemize}
+    \item Only one service: $100 g/m =$ \alert{$0.1 g/mm$} of \alert{Cu}
+    \item Radiation length $Cu = 12.86 g/cm^2 =$ \alert{$0.1286 g/mm^2$}
+    \item Layers 1 (\alert{12} rods, \alert{$r=40$}) and 2 (\alert{24} rods, \alert{$r=75$})
+    \end{itemize}
+  \end{block}
+  $$
+  \frac{X_{0 L1}}{X_{0 Cu}} = \frac{0.1 \cdot 12}{2\pi\cdot 40 \cdot 0.1286} = 0.037
+  $$
+
+  $$ 
+  \frac{X_{0 L2}}{X_{0 Cu}} = \frac{0.1 \cdot 24}{2\pi\cdot 75 \cdot 0.1286} = 0.04
+  $$
+
+At $\eta = 0$
+\end{frame}
+
+\begin{frame}{Layer 1}
+  \begin{center}
+    \includegraphics[width=10cm]{img/radLenLayer1.pdf}\\
+    \includegraphics[width=8cm]{img/plotLayer1.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Layer 2}
+  \begin{center}
+    \includegraphics[width=10cm]{img/radLenLayer2.pdf}\\
+    \includegraphics[width=8cm]{img/plotLayer2.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  Difference in last section not visible, reason:
+  \begin{center}
+    \includegraphics[width=6cm]{img/tabLayer1.pdf}
+    \includegraphics[width=6cm]{img/tabLayer2.pdf}\\
+    \includegraphics[width=12cm]{img/plot.pdf}
+  \end{center}
+\end{frame}
+
+\end{document}

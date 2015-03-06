@@ -1,0 +1,533 @@
+%\documentclass[gray,handout, pdftex, 11pt]{beamer}
+%\documentclass[handout, pdftex, 11pt]{beamer}
+\documentclass[pdftex, 11pt]{beamer}
+
+\usepackage{pgfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+%\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{acronym}
+\usepackage{array}
+%\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{appendixnumberbeamer}
+%\usepackage{advdate}
+\usepackage{color}
+\usepackage{multirow}
+
+\usepackage{relsize}
+%% \usepackage{enumitem}
+
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+
+%\AdvanceDate[1]
+
+%% \setlistdepth{9}
+
+%% \setlist[itemize,1]{label=$\bullet$}
+%% \setlist[itemize,2]{label=$\bullet$}
+%% \setlist[itemize,3]{label=$\bullet$}
+%% \setlist[itemize,4]{label=$\bullet$}
+%% \setlist[itemize,5]{label=$\bullet$}
+%% \setlist[itemize,6]{label=$\bullet$}
+%% \setlist[itemize,7]{label=$\bullet$}
+%% \setlist[itemize,8]{label=$\bullet$}
+%% \setlist[itemize,9]{label=$\bullet$}
+
+%% \renewlist{itemize}{itemize}{9}
+
+\definecolor{darkgreen}{rgb}{0.01, 0.75, 0.24}
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcommand{\cellwidth}{1.2cm}
+\newcommand{\svntitlesize}{\tiny}
+\newcommand{\svnbodysize}{\tiny}
+
+\newcommand{\cell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+\newcommand{\rowhead}[2]{\cell{\color{red}#1\\ \color{darkgreen}#2}}
+\newcommand{\rowheadb}[3]{\cell{#1\\ \color{red}#2\\ #3}}
+\newcommand{\cont}[5]{\cell{\color{red}#1\\ \color{blue}#2\\ #3\\ #4\\ \color{darkgreen}#5}}
+\newcommand{\deprecont}[5]{\cell{\color{red}#1\\ \color{blue}#2\\ #3\\ #4\\ \color{darkgreen}#5\\ \color{red}Deprecated warning}}
+\newcommand{\noacc}{No accumulation}
+\newcommand{\acc}{Accumulation}
+\newcommand{\noconv}{No conversion}
+\newcommand{\sca}{Scaling possible}
+\newcommand{\nosca}{Scaling not possible}
+\newcommand{\conv}{Conversion}
+\newcommand{\module}{\color{red}Module}
+\newcommand{\rod}{\color{red}Rod}
+\newcommand{\layer}{\color{red}Layer/Disk}
+\newcommand{\serfal}{\color{darkgreen}Service=false}
+\newcommand{\sertru}{\color{darkgreen}Service=true}
+\newcommand{\err}{\color{red}Error}
+\newcommand{\depre}{\color{red}Deprecated}
+\newcommand{\follsup}{Following supports $S_{R+1}\dots S_i\dots S_N$}
+\newcommand{\allsup}{All supports $S_1\dots S_i\dots S_N$}
+\newcommand{\modlen}{moduleLength}
+\newcommand{\modsur}{moduleSurface}
+\newcommand{\nummod}{numModules}
+\newcommand{\suplen}{supportLength}
+\newcommand{\supsur}{supportSurface}
+\newcommand{\mapbar}{\color{red}Barrel}
+\newcommand{\mapen}{\color{red}Endcap}
+
+\newcommand{\pat}[1]{\texttt{#1}}
+\newcommand{\prop}[1]{\texttt{#1}}
+
+\newcommand{\sym}{$\hookrightarrow$}
+
+\def\ifmonospace{\ifdim\fontdimen3\font=0pt }
+\def\c++{%
+\ifmonospace%
+    C++%
+\else%
+    C\kern-.1667em\raise.30ex\hbox{\smaller{++}}%
+\fi%
+\spacefactor1000 }
+
+
+
+\mode<presentation>{
+  %-------------------------1
+  \usetheme{Boadilla}
+  \usecolortheme{beaver}
+  %-------------------------1
+  %-------------------------2
+  %\usetheme{Goettingen}
+  %\usecolortheme{sidebartab}
+  %-------------------------2
+  %\useoutertheme[right]{sidebar}
+  %\usefonttheme{default}
+  \setbeamercovered{transparent}
+  %\setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{navigation symbols}{}
+
+  \bibliographystyle{abbrv}  
+  %\renewcommand\bibfont{\scriptsize}
+  \setbeamertemplate{bibliography item}{\textbullet}
+  \setbeamertemplate{itemize item}{\checkmark}
+  \setbeamertemplate{itemize subitem}{-}
+  \setbeamertemplate{enumerate items}[default]
+  \setbeamertemplate{sections/subsections in toc}[square]
+}
+
+\title[New material instructions]{\textbf{NEW MATERIAL MODEL INSTRUCTIONS}}
+\subtitle{tkLayout developers meeting}
+\institute[CERN]{
+  %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
+  %\\[0.2cm]
+  European Organization for Nuclear Research\\[0.5cm]
+  \includegraphics[width=2cm]{img/LogoBadge.pdf}\\
+}
+
+\author[Stefano Martina]{
+  %\\[0.2cm]
+  \textbf{Stefano MARTINA}\\
+  {\small stefano.martina@cern.ch}
+}
+
+\date[\today]{\flushright \today}
+
+\makeatletter
+\newcommand\ChangeItemFont[3]{%
+\renewcommand{\itemize}[1][]{%
+  \beamer@ifempty{##1}{}{\def\beamer@defaultospec{#1}}%
+  \ifnum \@itemdepth >2\relax\@toodeep\else
+    \advance\@itemdepth\@ne
+    \beamer@computepref\@itemdepth% sets \beameritemnestingprefix
+    \usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+    \usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+    \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+    \list
+      {\usebeamertemplate{itemize \beameritemnestingprefix item}}
+      {\def\makelabel####1{%
+          {%
+            \hss\llap{{%
+                \usebeamerfont*{itemize \beameritemnestingprefix item}%
+                \usebeamercolor[fg]{itemize \beameritemnestingprefix item}####1}}%
+          }%
+        }%
+  \ifnum\@itemdepth=1\relax
+    #1%
+  \else
+  \ifnum\@itemdepth=2\relax
+    #2%
+  \else
+  \ifnum\@itemdepth=3\relax
+    #3%
+  \fi%
+  \fi%
+  \fi%
+  }
+  \fi%
+  \beamer@cramped%
+  \raggedright%
+  \beamer@firstlineitemizeunskip%
+}}
+\makeatother
+
+\newcommand\ChangeItemFontAll[1]{\ChangeItemFont{#1}{#1}{#1}}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}{Old model}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/oldModel.pdf}
+  \end{center}
+  \begin{itemize}
+  \item Cables material distributed \alert{inside} modules volumes
+  \item Possible to model \alert{cooling pipe} along rods, \alert{manifold} in the flange and bigger cooling pipe out of the barrel
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{New model}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/newModel.pdf}
+  \end{center}
+  \begin{itemize}
+  \item Cables material in \alert{dedicated} volumes
+  \item More \alert{detailed}
+  \item Better routing \alert{algorithm}
+  \item More \alert{functionalities}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Advantages}
+  \begin{block}{Correct description for \alert{tilted} modules}
+    \begin{itemize}
+    \item In old model the cables were distributed \alert{over} the modules
+      \begin{itemize}
+      \item \alert{Not} feasible in case of tilted modules
+      \end{itemize}
+    \item Now is \alert{possible} to model this design
+    \end{itemize}
+  \end{block}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/tilted.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{New feature}
+  \begin{block}{Model for \alert{pixel-like} materials}
+    \begin{itemize}
+    \item For instance \alert{twisted pair} from modules, electrical optical \alert{transducer}, and \alert{optic fibers} after it
+    \end{itemize}
+  \end{block}
+  \begin{center}
+    \only<1>{\includegraphics[width=\textwidth]{img/electro-opto1.pdf}}
+    \only<2>{\includegraphics[width=\textwidth]{img/electro-opto2.pdf}}
+    \only<3>{\includegraphics[width=\textwidth]{img/electro-opto3.pdf}}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Advantages}
+  \begin{itemize}
+  \item The new algorithm use the \alert{same} underlying \c++ objects of the old
+  \item This means that the \alert{XML} export is working as usual
+    \begin{itemize}
+    \item only more \alert{detailed} than before
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Configuration files}
+  \begin{itemize}
+  \item \alert{\pat{config/stdinclude/Materials/}} material definition
+  \item \alert{\pat{config/stdinclude/Conversion/}} conversions definition
+  \end{itemize}
+  \begin{block}{}
+    \begin{itemize}
+    \item Include \alert{materials} in geometries at \alert{layer/disk}, \alert{rod} or \alert{module} levels, depending of the material type (or before)
+    \item Include \alert{conversions} in geometries at \alert{layer} or \alert{disk} level (or before)
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Material}
+  \ChangeItemFontAll{\fontsize{7}{8}\selectfont}
+  \begin{itemize} 
+  \item[\sym] \alert{\prop{type}} define the destination of material, can be:
+    \begin{itemize} 
+    \item[\sym] \alert{\prop{module}}
+    \item[\sym] \alert{\prop{rod}} only for barrels
+    \item[\sym] \alert{\prop{layer}} also for the disks
+    \end{itemize}
+  \item[\sym] \alert{\prop{ReferenceSensor}} only for \prop{module} material, define the reference sensor for scaling material (if specified), each one must have:
+    \begin{itemize} 
+    \item[\sym] \alert{\prop{numStripsAcross}}
+    \item[\sym] \alert{\prop{numSegments}}
+    \end{itemize}
+  \item[\sym] \alert{\prop{Component}} inside can have other \prop{Component} or:
+    \begin{itemize} 
+    \item[\sym] \alert{\prop{Element}} define a single material and have the properties:
+      \begin{itemize} 
+      \item[\sym] \alert{\prop{componentName}} the name of inner component, not mandatory
+      \item[\sym] \alert{\prop{elementName}} the name of the element, mandatory
+      \item[\sym] \alert{\prop{quantity}} mandatory
+      \item[\sym] \alert{\prop{unit}} the unit between \alert{\prop{g/m}}, \alert{\prop{mm}}, \alert{\prop{g}}, mandatory
+      \item[\sym] \alert{\prop{service}} if the material is locally to the element or exiting from it, false by default
+      \item[\sym] \alert{\prop{scaleOnSensor}} used only on \prop{module} materials, if 0 (by default) the element don't scale on sensor, otherwise scale on the specified sensor
+      \item[\sym] \alert{\prop{referenceSensor}} used only on \prop{module} materials with \prop{scaleOnSensor} active, specify the sensor of reference between the list provided before
+      \item[\sym] \alert{\prop{targetVolume}} used only on \prop{module} materials, specify the target volume index inside the module (sensor, hybrids, etc..), 0 by default
+      \item[\sym] \alert{\prop{destination}} if defined specify the second level conversion on wich the element is converted
+      \item[\sym] \alert{\prop{debugInactivate}} specify if deactivating the element or not for debugging, false by default
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Conversion}
+  \ChangeItemFontAll{\fontsize{8.5}{9.5}\selectfont}
+  \begin{itemize}
+  \item[\sym] \alert{\prop{stationName}} is the identifier, used also
+    for the \prop{destination} property, is mandatory
+  \item[\sym] \alert{\prop{type}} specify the kind of station, is
+    mandatory and can be \alert{\prop{flange}} or \alert{\prop{second}}
+  \item[\sym] \alert{\prop{minZ}} used only for \prop{second}
+    stations, specify the position
+  \item[\sym] \alert{\prop{maxZ}} as the previous
+  \item[\sym] \alert{\prop{Conversion}} can be more than one and is
+    constituted by:
+    \begin{itemize}
+    \item[\sym] \alert{\prop{Input}} mandatory, only one for \prop{Conversion} and have
+      \begin{itemize}
+      \item[\sym] \alert{\prop{Element}} mandatory, only one for \prop{Input}, is
+        the element to be converted, have:
+      \item[\sym] \alert{\prop{elementName}}
+      \item[\sym] \alert{\prop{quantity}}
+      \item[\sym] \alert{\prop{unit}}
+      \end{itemize}
+    \item[\sym] \alert{\prop{Output}} mandatory, only one for
+      \prop{Conversion} and have
+      \begin{itemize}
+      \item[\sym] \alert{\prop{Element}} not mandatory, can be more
+        than one, is the result of the conversion, have:
+      \item[\sym] \alert{\prop{elementName}}
+      \item[\sym] \alert{\prop{quantity}}
+      \item[\sym] \alert{\prop{unit}}
+      \item[\sym] \alert{\prop{service}} if false (by default) the
+          material go inside the conversion object (flange or custom
+          for second), if true go out
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \fontsize{4.5pt}{6pt}\selectfont
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|}
+      \cline{2-4}
+      \multicolumn{1}{c|}{} & \color{darkgreen}Unit=$g/m$ & \color{darkgreen}Unit=$mm$ & \color{darkgreen}Unit=$g$\\
+      \hline
+      \rowhead{\module}{\serfal} & \cont{\module}{$\times \modlen$}{\noacc}{\noconv}{\sca}& \cont{\module}{$\times \modsur\times \rho$ (sensor surface)}{\noacc}{\noconv}{\sca}& \cont{\module}{$\times 1$}{\noacc}{\noconv}{\sca}\\
+      \hline
+      \rowheadb{\module}{ring $R$ of $N$}{\sertru} & \cont{\follsup}{$\times \nummod_R \times \suplen_i$}{\acc}{\conv (1:1 by default, with warning)}{\sca} & \deprecont{\follsup}{$\times \nummod_R \times \supsur_i \times \rho$}{\acc}{\conv  (1:1 by default, with warning)}{\sca} & \err \\
+      \hline
+      \rowhead{\rod (barrel)}{\serfal} & \cont{\allsup}{$\times \nummod_1 \times \suplen_i$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \nummod_1 \times \frac{\suplen_i}{\sum_{j=1}^N\suplen_j}$}{\noacc}{\noconv}{\nosca} \\
+      \hline
+      \rowhead{\rod (barrel)}{\sertru} & \cont{\allsup}{$\times \nummod_1 \times \suplen_i$}{\noacc}{\conv}{\nosca} & \deprecont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\conv}{\nosca} & \err \\
+      \hline
+      \rowhead{\layer}{\serfal} & \cont{\allsup}{$\times \suplen_i$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \frac{\suplen_i}{\sum_{j=1}^N\suplen_j}$}{\noacc}{\noconv}{\nosca} \\
+      \hline
+      \rowhead{\layer}{\sertru} & \cont{\allsup}{$\times \suplen_i$}{\noacc}{\conv}{\nosca} & \deprecont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\conv}{\nosca} & \err \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Example}
+  \begin{block}{\pat{geometries/.../TechnicalProposal2014\_Types.cfg}}
+\begin{verbatim}
+Barrel TBPS {
+  @includestd ModuleTypes/ptPS
+  @includestd Conversions/flange
+  Layer 1 { 
+    triggerWindow 5
+    dsDistance 2.6
+  }
+\end{verbatim}
+$\cdots$
+  \end{block}
+  \begin{block}{\pat{config/stdinclude/ModuleTypes/ptPS}}
+    $\cdots$
+\begin{verbatim}
+@includestd Materials/ptPS
+@includestd Materials/rodPtPS
+\end{verbatim}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Example}
+  \tiny
+  \begin{columns}[t]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{\pat{.../Materials/ptPS}}
+\begin{verbatim}
+Materials module-ptPS {
+  type module
+
+  // Default sensor:
+  ReferenceSensor 1 {
+    numStripsAcross 960
+    numSegments 32
+  }
+  ReferenceSensor 2 {
+    numStripsAcross 960
+    numSegments 2
+  } 
+
+  // Sensor
+  Component {
+    componentName Sensor
+    service false
+    scaleOnSensor 0
+    targetVolume 1
+    Element {
+      elementName SenSi
+      quantity 0.2
+      unit mm
+    }
+  }
+\end{verbatim}
+$\cdots$
+      \end{block}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{\pat{.../Materials/rodPtPS}}
+\begin{verbatim}
+Materials rodPtPS {
+  type rod
+
+  Component {
+    componentName Cooling
+    service true
+    scaleOnSensor 0
+    Element {
+      elementName Steel
+      quantity 7.860696517
+      unit g/m
+    }
+    Element {
+      elementName CO2
+      quantity 1.791044776
+      unit g/m
+    }
+  }
+\end{verbatim}
+$\cdots$
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Example}
+  \tiny
+  \begin{columns}[t]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{\pat{.../Conversions/flange}}
+\begin{verbatim}
+Station {
+  stationName flange
+  type flange
+...
+  Conversion {
+    Input {
+      Element {
+        elementName Cu_MV
+        quantity 10
+        unit g/m
+      }
+    }
+    Output {
+      Element {
+        elementName Cu
+        quantity 10
+        unit g/m
+        service true
+      }
+      Element {
+        elementName Cu
+        quantity 0.423
+        unit g
+        service false
+      }
+\end{verbatim}
+$\cdots$
+      \end{block}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{\pat{.../Conversions/endcap1}}
+\begin{verbatim}
+Station {
+  stationName endcap1
+  type second
+
+  minZ 1500
+  maxZ 1600
+
+  Conversion {
+\end{verbatim}
+$\cdots$
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Supports}
+  \begin{block}{Custom supports}
+\begin{verbatim}
+Support {
+  type custom
+  customZMin 2300
+  customRMin 200
+  customLength 600
+  customDir vertical
+  Component {
+    componentName supp
+    Element {
+      elementName Steel
+      quantity 1000000
+      unit g
+    }
+  }
+}  
+\end{verbatim}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Supports}
+  \begin{block}{Top/bottom supports}
+\begin{verbatim}
+Support {
+  type top //or bottom
+    
+  Component {
+...
+\end{verbatim}
+  \end{block}
+
+  \begin{block}{Auto supports}
+\begin{verbatim}
+Support {
+  type auto
+  autoPosition 500
+    
+  Component {
+...
+\end{verbatim}
+  \end{block}  
+\end{frame}
+
+\end{document}
+

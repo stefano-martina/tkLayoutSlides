@@ -1,0 +1,176 @@
+%\documentclass[gray,handout, pdftex, 11pt]{beamer}
+%\documentclass[handout, pdftex, 11pt]{beamer}
+\documentclass[pdftex, 11pt]{beamer}
+
+\usepackage{pgfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{acronym}
+\usepackage{array}
+%\usepackage{natbib}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+
+\usepackage{appendixnumberbeamer}
+
+\mode<presentation>{
+  %-------------------------1
+  \usetheme{Boadilla}
+  \usecolortheme{beaver}
+  %-------------------------1
+  %-------------------------2
+  %\usetheme{Goettingen}
+  %\usecolortheme{sidebartab}
+  %-------------------------2
+  %\useoutertheme[right]{sidebar}
+  %\usefonttheme{default}
+  \setbeamercovered{transparent}
+  %\setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{navigation symbols}{}
+
+  \bibliographystyle{abbrv}  
+  %\renewcommand\bibfont{\scriptsize}
+  \setbeamertemplate{bibliography item}{\textbullet}
+  \setbeamertemplate{itemize item}{\checkmark}
+  \setbeamertemplate{itemize subitem}{-}
+  \setbeamertemplate{enumerate items}[default]
+  \setbeamertemplate{sections/subsections in toc}[square]
+}
+
+%stili
+\tikzstyle{linea}=[draw, green]
+\tikzstyle{service}=[very thick, draw, blue]
+\tikzstyle{modulo}=[very thick, draw, red]
+\tikzstyle{freccia}=[->, very thick, >=stealth', draw, red]
+
+
+\newcommand{\frecciadx}{~{\tikz[baseline] \draw[freccia] (0,0.5ex) --
+  (5.5ex,0.5ex);}~}
+
+
+\title[Progress report]{\textbf{PROGRESS REPORT}}
+\subtitle{tkLayout developers meeting}
+\institute[CERN]{
+  %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
+  %\\[0.2cm]
+  European Organization for Nuclear Research\\[0.5cm]
+  \includegraphics[width=2cm]{img/LogoBadge.pdf}\\
+}
+
+\author[Stefano Martina]{
+  %\\[0.2cm]
+  \textbf{Stefano MARTINA}\\
+  {\small stefano.martina@cern.ch}
+}
+
+\date[\today]{\flushright \today}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item \alert{Creazione} dei cilindri per i materiali uscenti dai
+    moduli
+    \\[0.5cm]
+    \begin{tikzpicture}[scale=0.5]
+      \newcommand*{\modl}{2cm};
+      \newcommand*{\delp}{0.3cm};
+      \newcommand*{\modd}{1.7cm};
+      \newcommand*{\delg}{1.5cm};
+
+      \coordinate (base) at (0cm,1cm);
+      \coordinate (zero) at (0cm,0cm);
+
+      %inner rod
+      \draw let \p1=(base) in coordinate (s1) at (\x1,\y1);
+      \draw let \p1=(base) in coordinate (e1) at (\x1+\modl,\y1);
+      \path[modulo] (s1) to (e1);
+      
+      \draw let \p1=(s1) in coordinate (s2) at (\x1+\modd,\y1-\delp);
+      \draw let \p1=(s1) in coordinate (e2) at (\x1+\modd+\modl,\y1-\delp);
+      \path[modulo] (s2) to (e2);
+
+      \draw let \p1=(s2) in coordinate (s3) at (\x1+\modd,\y1+\delp);
+      \draw let \p1=(s2) in coordinate (e3) at (\x1+\modd+\modl,\y1+\delp);
+      \path[modulo] (s3) to (e3);
+
+      \draw let \p1=(s3) in coordinate (s4) at (\x1+\modd,\y1-\delp);
+      \draw let \p1=(s3) in coordinate (e4) at (\x1+\modd+\modl,\y1-\delp);
+      \path[modulo] (s4) to (e4);
+
+      \draw let \p1=(s4) in coordinate (s5) at (\x1+\modd,\y1+\delp);
+      \draw let \p1=(s4) in coordinate (e5) at (\x1+\modd+\modl,\y1+\delp);
+      \path[modulo] (s5) to (e5);
+
+      \draw let \p1=(s5) in coordinate (s6) at (\x1+\modd,\y1-\delp);
+      \draw let \p1=(s5) in coordinate (e6) at (\x1+\modd+\modl,\y1-\delp);
+      \path[modulo] (s6) to (e6);
+
+      %outer rod
+      \draw let \p1=(base) in coordinate (ss1) at (\x1,\y1+\delg);
+      \draw let \p1=(base) in coordinate (ee1) at (\x1+\modl,\y1+\delg);
+      \path[modulo] (ss1) to (ee1);
+      
+      \draw let \p1=(ss1) in coordinate (ss2) at (\x1+\modd,\y1-\delp);
+      \draw let \p1=(ss1) in coordinate (ee2) at (\x1+\modd+\modl,\y1-\delp);
+      \path[modulo] (ss2) to (ee2);
+
+      \draw let \p1=(ss2) in coordinate (ss3) at (\x1+\modd,\y1+\delp);
+      \draw let \p1=(ss2) in coordinate (ee3) at (\x1+\modd+\modl,\y1+\delp);
+      \path[modulo] (ss3) to (ee3);
+
+      \draw let \p1=(ss3) in coordinate (ss4) at (\x1+\modd,\y1-\delp);
+      \draw let \p1=(ss3) in coordinate (ee4) at (\x1+\modd+\modl,\y1-\delp);
+      \path[modulo] (ss4) to (ee4);
+
+      \draw let \p1=(ss4) in coordinate (ss5) at (\x1+\modd,\y1+\delp);
+      \draw let \p1=(ss4) in coordinate (ee5) at (\x1+\modd+\modl,\y1+\delp);
+      \path[modulo] (ss5) to (ee5);
+
+      \draw let \p1=(ss5) in coordinate (ss6) at (\x1+\modd,\y1-\delp);
+      \draw let \p1=(ss5) in coordinate (ee6) at (\x1+\modd+\modl,\y1-\delp);
+      \path[modulo] (ss6) to (ee6);
+
+      %max Z lines
+      \path[linea] (ee1) to (ee1 |- zero);
+      \path[linea] (ee2) to (ee2 |- zero);
+      \path[linea] (ee3) to (ee3 |- zero);
+      \path[linea] (ee4) to (ee4 |- zero);
+      \path[linea] (ee5) to (ee5 |- zero);
+      \path[linea] (ee6) to (ee6 |- zero);
+
+      %service
+      \path[service] (ee1 |- zero) to (12cm, 0cm);
+
+    \end{tikzpicture} 
+    \\[0.3cm]
+    \begin{itemize}
+    \item un cilindro per modulo che vanno dal \alert{max Z} di ogni modulo
+      al max Z del modulo successivo nella rod 
+      \begin{itemize}
+      \item l'\alert{ultimo} cilindro finisce al service disk tra barrel ed endcap
+      \item \alert{problema} del max Z non corrispondente tra inner e outer
+        rod (moduli tilted) \frecciadx{} si prende il \alert{minimo} tra
+        i due max Z
+      \end{itemize}
+    \item il \alert{raggio} è uguale per tutti i cilindri, vengono posizionati
+      internamente alla inner rod
+      \begin{itemize}
+      \item pensare se fornire un \alert{offset} per il raggio da file di
+        configurazione
+      \end{itemize}
+    \end{itemize}
+  \item \alert{Calcolo} dei materiali sui cilindri creati
+  \end{itemize}
+\end{frame}
+
+\end{document}

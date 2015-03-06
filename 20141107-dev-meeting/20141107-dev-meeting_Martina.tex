@@ -1,0 +1,128 @@
+%\documentclass[gray,handout, pdftex, 11pt]{beamer}
+%\documentclass[handout, pdftex, 11pt]{beamer}
+\documentclass[pdftex, 11pt]{beamer}
+
+\usepackage{pgfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+%\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{acronym}
+\usepackage{array}
+%\usepackage{natbib}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+
+\usepackage{appendixnumberbeamer}
+
+\mode<presentation>{
+  %-------------------------1
+  \usetheme{Boadilla}
+  \usecolortheme{beaver}
+  %-------------------------1
+  %-------------------------2
+  %\usetheme{Goettingen}
+  %\usecolortheme{sidebartab}
+  %-------------------------2
+  %\useoutertheme[right]{sidebar}
+  %\usefonttheme{default}
+  \setbeamercovered{transparent}
+  %\setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{navigation symbols}{}
+
+  \bibliographystyle{abbrv}  
+  %\renewcommand\bibfont{\scriptsize}
+  \setbeamertemplate{bibliography item}{\textbullet}
+  \setbeamertemplate{itemize item}{\checkmark}
+  \setbeamertemplate{itemize subitem}{-}
+  \setbeamertemplate{enumerate items}[default]
+  \setbeamertemplate{sections/subsections in toc}[square]
+}
+
+%stili
+\tikzstyle{linea}=[draw, green]
+\tikzstyle{service}=[very thick, draw, blue]
+\tikzstyle{newService}=[very thick, draw, red]
+\tikzstyle{modulo}=[thick, draw, black]
+\tikzstyle{freccia}=[->, very thick, >=stealth', draw, red]
+
+
+\newcommand{\frecciadx}{~{\tikz[baseline] \draw[freccia] (0,0.5ex) --
+  (5.5ex,0.5ex);}~}
+
+\title[Progress report]{\textbf{PROGRESS REPORT}}
+\subtitle{tkLayout developers meeting}
+\institute[CERN]{
+  %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
+  %\\[0.2cm]
+  European Organization for Nuclear Research\\[0.5cm]
+  \includegraphics[width=2cm]{img/LogoBadge.pdf}\\
+}
+
+\author[Stefano Martina]{
+  %\\[0.2cm]
+  \textbf{Stefano MARTINA}\\
+  {\small stefano.martina@cern.ch}
+}
+
+\date[\today]{\flushright \today}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Second level station (to be \alert{debugged/validated})
+  \end{itemize}
+
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/stazione2.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{Destination definition (\alert{TechnicalProposal2014\_Types.cfg})}
+\begin{verbatim}
+Barrel TIB {
+  @includestd ModuleTypes/ptPS
+  @includestd Materials/ptPS
+  @includestd Materials/rodPtPS
+  @includestd Conversions/flange
+  @includestd Conversions/endcap1
+  Layer 1 { 
+    destination endcap1
+\end{verbatim}
+  \end{block}
+  \begin{block}{Station definition (\alert{Conversions/endcap1})}
+\begin{verbatim}
+Station {
+  stationName endcap1
+  type endcap
+  minZ 1500
+  maxZ 1600
+  Conversion {
+\end{verbatim}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Debug keyword \alert{debugInactivate}
+  \item Implemented debug \alert{grams plot} integrated in $\phi$ (still no visualization, only orthogonal elements)
+  \item Next steps:
+    \begin{itemize}
+    \item Focus on pixels (strange \alert{bug} to be corrected, finish \alert{config file} conversion)
+    \item Test of tilted pixels material routing (hopefully \alert{working})
+    \item Support rings
+    \item Optimization of service sections class (if time)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\end{document}

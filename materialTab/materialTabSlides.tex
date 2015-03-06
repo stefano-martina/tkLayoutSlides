@@ -1,0 +1,208 @@
+%\documentclass[gray,handout, pdftex, 11pt]{beamer}
+%\documentclass[handout, pdftex, 11pt]{beamer}
+\documentclass[pdftex, 11pt]{beamer}
+
+\usepackage{pgfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+%\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{acronym}
+\usepackage{array}
+%\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{appendixnumberbeamer}
+%\usepackage{advdate}
+\usepackage{color}
+
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc, positioning}
+
+\tikzstyle{point}=[coordinate]
+\tikzstyle{evidenzia}=[draw opacity = 0.5, line width = 5pt, color=red, decorate, decoration={random steps,segment length=3pt,amplitude=1pt}]
+\tikzstyle{evidenziaRett}=[evidenzia, draw]
+
+\definecolor{darkgreen}{rgb}{0.01, 0.75, 0.24}
+
+\newcommand{\svntitlesize}{\tiny}
+\newcommand{\svnbodysize}{\tiny}
+\newcommand{\bigtabfont}{\fontsize{4pt}{5}\selectfont}
+\newcommand{\littletabfont}{\fontsize{3.5pt}{5}\selectfont}
+
+\newcommand{\cell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+\newcommand{\rowhead}[2]{\cell{\color{red}#1\\ \color{darkgreen}#2}}
+\newcommand{\rowheadb}[3]{\cell{\color{red}#1\\ \color{red}#2\\ \color{darkgreen}#3}}
+\newcommand{\cont}[5]{\cell{\color{red}#1\\ \color{blue}#2\\ #3\\ #4\\ \color{darkgreen}#5}}
+\newcommand{\deprecont}[5]{\cell{\color{red}#1\\ \color{blue}#2\\ #3\\ #4\\ \color{darkgreen}#5\\ \color{red}Deprecated warning}}
+\newcommand{\noacc}{No accumulation}
+\newcommand{\acc}{Accumulation}
+\newcommand{\noconv}{No conversion}
+\newcommand{\sca}{Scaling possible}
+\newcommand{\nosca}{Scaling not possible}
+\newcommand{\conv}{Conversion}
+\newcommand{\serfal}{Service=false}
+\newcommand{\sertru}{Service=true}
+\newcommand{\err}{\color{red}N/A}
+\newcommand{\depre}{\color{red}Deprecated}
+\newcommand{\follsup}{Following sections $S_{R+1}\dots S_i\dots S_N$}
+\newcommand{\allsup}{All sections $S_1\dots S_i\dots S_N$}
+\newcommand{\modlen}{moduleLength}
+\newcommand{\modsur}{moduleSurface}
+\newcommand{\nummod}{numModules}
+\newcommand{\suplen}{supportLength}
+\newcommand{\supsur}{supportSurface}
+
+
+%\AdvanceDate[1]
+
+
+\mode<presentation>{
+  %-------------------------1
+  \usetheme{Boadilla}
+  \usecolortheme{beaver}
+  %-------------------------1
+  %-------------------------2
+  %\usetheme{Goettingen}
+  %\usecolortheme{sidebartab}
+  %-------------------------2
+  %\useoutertheme[right]{sidebar}
+  %\usefonttheme{default}
+  \setbeamercovered{transparent}
+  %\setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{navigation symbols}{}
+
+  \bibliographystyle{abbrv}  
+  %\renewcommand\bibfont{\scriptsize}
+  \setbeamertemplate{bibliography item}{\textbullet}
+  \setbeamertemplate{itemize item}{\checkmark}
+  \setbeamertemplate{itemize subitem}{-}
+  \setbeamertemplate{enumerate items}[default]
+  \setbeamertemplate{sections/subsections in toc}[square]
+}
+
+\title[Rod and layer materials]{\textbf{ROD AND LAYER MATERIALS ALTERNATIVES}}
+\subtitle{tkLayout developers meeting}
+\institute[CERN]{
+  %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
+  %\\[0.2cm]
+  European Organization for Nuclear Research\\[0.5cm]
+  \includegraphics[width=2cm]{img/LogoBadge.pdf}\\
+}
+
+\author[Stefano Martina]{
+  %\\[0.2cm]
+  \textbf{Stefano MARTINA}\\
+  {\small stefano.martina@cern.ch}
+}
+
+\date[\today]{\flushright \today}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}{Actual}
+  \begin{center}
+    \bigtabfont
+    \begin{tabular}{|c||c|c|c|}
+      \hline
+      & \color{darkgreen}Unit=$g/m$ (linear dens.) & \color{darkgreen}Unit=$mm$ (thickness) & \color{darkgreen}Unit=$g$ (weight)\\
+      \hline\hline
+      \rowhead{Module}{\serfal} & \cont{Module}{$\times \modlen$}{\noacc}{\noconv}{\sca}& \cont{Module}{$\times \modsur\times \rho$ (sensor surface)}{\noacc}{\noconv}{\sca}& \cont{Module}{$\times 1$}{\noacc}{\noconv}{\sca}\\
+      \hline
+      \rowheadb{Module}{in ring $R$ of $N$}{\sertru} & \cont{\follsup}{$\times \nummod_R \times \suplen_i$}{\acc}{\conv (1:1 by default, with warning)}{\sca} & \deprecont{\follsup}{$\times \nummod_R \times \supsur_i \times \rho$}{\acc}{\conv  (1:1 by default, with warning)}{\sca} & \err \\
+      \hline
+      \rowheadb{Rod}{(barrel, endcap)}{\serfal} & \cont{\allsup}{$\times \nummod_1 \times \suplen_i$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\noconv}{\nosca} & \err \\
+      \hline
+      \rowheadb{Rod}{(barrel, endcap)}{\sertru} & \cont{\allsup}{$\times \nummod_1 \times \suplen_i$}{\noacc}{\conv}{\nosca} & \deprecont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\conv}{\nosca} & \err \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \begin{center}
+    \littletabfont
+    \begin{tabular}{|c|c|c|c|}
+      \hline
+      & Modules & Cylind. service sections & disk service section \\
+      \hline
+      Length & Local $y$ & $\Delta z$ & $\Delta r$ \\
+      \hline
+      Surface & Sensor surface & $2\pi r \Delta z$ & $\pi({r_2}^2 - {r_1}^2)$ \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Alternative 1}
+  \begin{center}
+    \bigtabfont
+    \begin{tabular}{|c||c|c|c|}
+      \hline
+      & \color{darkgreen}Unit=$g/m$ (linear dens.) & \color{darkgreen}Unit=$mm$ (thickness) & \color{darkgreen}Unit=$g$ (weight)\\
+      \hline\hline
+      \rowhead{Module}{\serfal} & \cont{Module}{$\times \modlen$}{\noacc}{\noconv}{\sca}& \cont{Module}{$\times \modsur\times \rho$ (sensor surface)}{\noacc}{\noconv}{\sca}& \cont{Module}{$\times 1$}{\noacc}{\noconv}{\sca}\\
+      \hline
+      \rowheadb{Module}{in ring $R$ of $N$}{\sertru} & \cont{\follsup}{$\times \nummod_R \times \suplen_i$}{\acc}{\conv (1:1 by default, with warning)}{\sca} & \deprecont{\follsup}{$\times \nummod_R \times \supsur_i \times \rho$}{\acc}{\conv  (1:1 by default, with warning)}{\sca} & \err \\
+      \hline
+      \rowheadb{Rod}{(barrel, endcap)}{\serfal} & \cont{\allsup}{$\times \nummod_1 \times \suplen_i$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \nummod_1 \times \frac{\suplen_i}{\Sigma \suplen}$}{\noacc}{\noconv}{\nosca} \\
+      \hline
+      \rowheadb{Rod}{(barrel, endcap)}{\sertru} & \cont{\allsup}{$\times \nummod_1 \times \suplen_i$}{\noacc}{\conv}{\nosca} & \deprecont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\conv}{\nosca} & \err \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \begin{center}
+    \littletabfont
+    \begin{tabular}{|c|c|c|c|}
+      \hline
+      & Modules & Cylind. service sections & disk service section \\
+      \hline
+      Length & Local $y$ & $\Delta z$ & $\Delta r$ \\
+      \hline
+      Surface & Sensor surface & $2\pi r \Delta z$ & $\pi({r_2}^2 - {r_1}^2)$ \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \tikz[baseline, overlay]\node[point] (pp) at (9.7cm,3.3cm){};
+  \tikz[baseline, overlay]\draw [evidenzia, xscale=2] (pp) circle (0.8cm);
+\end{frame}
+\begin{frame}{Alternative 2}
+  \begin{center}
+    \bigtabfont
+    \begin{tabular}{|c||c|c|c|}
+      \hline
+      & \color{darkgreen}Unit=$g/m$ (linear dens.) & \color{darkgreen}Unit=$mm$ (thickness) & \color{darkgreen}Unit=$g$ (weight)\\
+      \hline\hline
+      \rowhead{Module}{\serfal} & \cont{Module}{$\times \modlen$}{\noacc}{\noconv}{\sca}& \cont{Module}{$\times \modsur\times \rho$ (sensor surface)}{\noacc}{\noconv}{\sca}& \cont{Module}{$\times 1$}{\noacc}{\noconv}{\sca}\\
+      \hline
+      \rowheadb{Module}{in ring $R$ of $N$}{\sertru} & \cont{\follsup}{$\times \nummod_R \times \suplen_i$}{\acc}{\conv (1:1 by default, with warning)}{\sca} & \deprecont{\follsup}{$\times \nummod_R \times \supsur_i \times \rho$}{\acc}{\conv  (1:1 by default, with warning)}{\sca} & \err \\
+      \hline
+      \rowheadb{Rod}{(barrel, endcap)}{\serfal} & \cont{\allsup}{$\times \nummod_1 \times \suplen_i$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\noconv}{\nosca} & \err \\
+      \hline
+      \rowhead{Rod}{\sertru} & \cont{\allsup}{$\times \nummod_1 \times \suplen_i$}{\noacc}{\conv}{\nosca} & \deprecont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\conv}{\nosca} & \err \\
+      \hline
+      \rowhead{Layer/Disk}{\serfal} & \cont{\allsup}{$\times \suplen_i$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\noconv}{\nosca} & \cont{\allsup}{$\times \frac{\suplen_i}{\Sigma\suplen}$}{\noacc}{\noconv}{\nosca} \\
+      \hline
+      \rowhead{Layer/Disk}{\sertru} & \cont{\allsup}{$\times \suplen_i$}{\noacc}{\conv}{\nosca} & \cont{\allsup}{$\times \supsur_i \times \rho$}{\noacc}{\conv}{\nosca} & \err \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \begin{center}
+    \littletabfont
+    \begin{tabular}{|c|c|c|c|}
+      \hline
+      & Modules & Cylind. service sections & disk service section \\
+      \hline
+      Length & Local $y$ & $\Delta z$ & $\Delta r$ \\
+      \hline
+      Surface & Sensor surface & $2\pi r \Delta z$ & $\pi({r_2}^2 - {r_1}^2)$ \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \tikz[baseline, overlay]\node[evidenziaRett, text width = 10cm, text height = 1.85cm] (pp2) at (6.02cm,2.52cm){};
+\end{frame}
+\end{document}
