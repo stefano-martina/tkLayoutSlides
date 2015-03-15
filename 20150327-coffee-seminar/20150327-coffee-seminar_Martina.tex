@@ -1,0 +1,188 @@
+%\documentclass[gray,handout, pdftex, 11pt]{beamer}
+%\documentclass[handout, pdftex, 11pt]{beamer}
+\documentclass[pdftex, 11pt]{beamer}
+
+\usepackage{pgfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+%\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{acronym}
+\usepackage{array}
+%\usepackage{natbib}
+\usepackage{verbatim}
+\usepackage{appendixnumberbeamer}
+%\usepackage{advdate}
+\usepackage{color}
+\usepackage{multirow}
+
+\usepackage{relsize}
+%% \usepackage{enumitem}
+
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+
+%\AdvanceDate[1]
+
+%% \setlistdepth{9}
+
+%% \setlist[itemize,1]{label=$\bullet$}
+%% \setlist[itemize,2]{label=$\bullet$}
+%% \setlist[itemize,3]{label=$\bullet$}
+%% \setlist[itemize,4]{label=$\bullet$}
+%% \setlist[itemize,5]{label=$\bullet$}
+%% \setlist[itemize,6]{label=$\bullet$}
+%% \setlist[itemize,7]{label=$\bullet$}
+%% \setlist[itemize,8]{label=$\bullet$}
+%% \setlist[itemize,9]{label=$\bullet$}
+
+%% \renewlist{itemize}{itemize}{9}
+
+\definecolor{darkgreen}{rgb}{0.01, 0.75, 0.24}
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcommand{\cellwidth}{1.2cm}
+\newcommand{\svntitlesize}{\tiny}
+\newcommand{\svnbodysize}{\tiny}
+
+\newcommand{\cell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+\newcommand{\rowhead}[2]{\cell{\color{red}#1\\ \color{darkgreen}#2}}
+\newcommand{\rowheadb}[3]{\cell{#1\\ \color{red}#2\\ #3}}
+\newcommand{\cont}[5]{\cell{\color{red}#1\\ \color{blue}#2\\ #3\\ #4\\ \color{darkgreen}#5}}
+\newcommand{\deprecont}[5]{\cell{\color{red}#1\\ \color{blue}#2\\ #3\\ #4\\ \color{darkgreen}#5\\ \color{red}Deprecated warning}}
+\newcommand{\noacc}{No accumulation}
+\newcommand{\acc}{Accumulation}
+\newcommand{\noconv}{No conversion}
+\newcommand{\sca}{Scaling possible}
+\newcommand{\nosca}{Scaling not possible}
+\newcommand{\conv}{Conversion}
+\newcommand{\module}{\color{red}Module}
+\newcommand{\rod}{\color{red}Rod}
+\newcommand{\layer}{\color{red}Layer/Disk}
+\newcommand{\serfal}{\color{darkgreen}Service=false}
+\newcommand{\sertru}{\color{darkgreen}Service=true}
+\newcommand{\err}{\color{red}Error}
+\newcommand{\depre}{\color{red}Deprecated}
+\newcommand{\follsup}{Following supports $S_{R+1}\dots S_i\dots S_N$}
+\newcommand{\allsup}{All supports $S_1\dots S_i\dots S_N$}
+\newcommand{\modlen}{moduleLength}
+\newcommand{\modsur}{moduleSurface}
+\newcommand{\nummod}{numModules}
+\newcommand{\suplen}{supportLength}
+\newcommand{\supsur}{supportSurface}
+\newcommand{\mapbar}{\color{red}Barrel}
+\newcommand{\mapen}{\color{red}Endcap}
+
+\newcommand{\pat}[1]{\texttt{#1}}
+\newcommand{\prop}[1]{\texttt{#1}}
+
+\newcommand{\sym}{$\hookrightarrow$}
+
+\def\ifmonospace{\ifdim\fontdimen3\font=0pt }
+\def\c++{%
+\ifmonospace%
+    C++%
+\else%
+    C\kern-.1667em\raise.30ex\hbox{\smaller{++}}%
+\fi%
+\spacefactor1000 }
+
+
+
+\mode<presentation>{
+  %-------------------------1
+  \usetheme{Boadilla}
+  \usecolortheme{beaver}
+  %-------------------------1
+  %-------------------------2
+  %\usetheme{Goettingen}
+  %\usecolortheme{sidebartab}
+  %-------------------------2
+  %\useoutertheme[right]{sidebar}
+  %\usefonttheme{default}
+  \setbeamercovered{transparent}
+  %\setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{navigation symbols}{}
+
+  \bibliographystyle{abbrv}  
+  %\renewcommand\bibfont{\scriptsize}
+  \setbeamertemplate{bibliography item}{\textbullet}
+  \setbeamertemplate{itemize item}{\checkmark}
+  \setbeamertemplate{itemize subitem}{-}
+  \setbeamertemplate{enumerate items}[default]
+  \setbeamertemplate{sections/subsections in toc}[square]
+}
+
+\title[New material instructions]{\textbf{NEW MATERIAL MODEL INSTRUCTIONS}}
+\subtitle{tkLayout developers meeting}
+\institute[CERN]{
+  %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
+  %\\[0.2cm]
+  European Organization for Nuclear Research\\[0.5cm]
+  \includegraphics[width=2cm]{img/LogoBadge.pdf}\\
+}
+
+\author[Stefano Martina]{
+  %\\[0.2cm]
+  \textbf{Stefano MARTINA}\\
+  {\small stefano.martina@cern.ch}
+}
+
+\date[\today]{\flushright \today}
+
+\makeatletter
+\newcommand\ChangeItemFont[3]{%
+\renewcommand{\itemize}[1][]{%
+  \beamer@ifempty{##1}{}{\def\beamer@defaultospec{#1}}%
+  \ifnum \@itemdepth >2\relax\@toodeep\else
+    \advance\@itemdepth\@ne
+    \beamer@computepref\@itemdepth% sets \beameritemnestingprefix
+    \usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+    \usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+    \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+    \list
+      {\usebeamertemplate{itemize \beameritemnestingprefix item}}
+      {\def\makelabel####1{%
+          {%
+            \hss\llap{{%
+                \usebeamerfont*{itemize \beameritemnestingprefix item}%
+                \usebeamercolor[fg]{itemize \beameritemnestingprefix item}####1}}%
+          }%
+        }%
+  \ifnum\@itemdepth=1\relax
+    #1%
+  \else
+  \ifnum\@itemdepth=2\relax
+    #2%
+  \else
+  \ifnum\@itemdepth=3\relax
+    #3%
+  \fi%
+  \fi%
+  \fi%
+  }
+  \fi%
+  \beamer@cramped%
+  \raggedright%
+  \beamer@firstlineitemizeunskip%
+}}
+\makeatother
+
+\newcommand\ChangeItemFontAll[1]{\ChangeItemFont{#1}{#1}{#1}}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\end{document}
+
