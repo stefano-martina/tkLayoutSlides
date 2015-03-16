@@ -82,6 +82,8 @@
 
 \newcommand{\sym}{$\hookrightarrow$}
 
+\newcommand{\tkl}{TkLayout}
+
 \def\ifmonospace{\ifdim\fontdimen3\font=0pt }
 \def\c++{%
 \ifmonospace%
@@ -117,8 +119,8 @@
   \setbeamertemplate{sections/subsections in toc}[square]
 }
 
-\title[New material instructions]{\textbf{NEW MATERIAL MODEL INSTRUCTIONS}}
-\subtitle{tkLayout developers meeting}
+\title[\tkl]{\textbf{TKLAYOUT, A TOOL FOR CMS TRACKER DESIGN}}
+\subtitle{Coffee seminar}
 \institute[CERN]{
   %{\Large\textbf{CERN}}\\{European Organization for Nuclear Research}\\[0.5cm]
   %\\[0.2cm]
@@ -181,7 +183,136 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{\tkl}
+  \begin{itemize}
+  \item CMS upgrade \alert{phase 2}
+  \item \alert{\tkl} is the tracker design tool
+  \item \alert{material} evaluation
+  \item \alert{performance} analysis
+  \end{itemize}
+\end{frame}
 
+\begin{frame}
+  \frametitle{Phase 2}
+  \begin{itemize}
+  \item \alert{outer tracker} at advanced study phase
+    \begin{itemize}
+    \item \alert{TB2S} consolidate
+    \item \alert{TBPS} still different options
+      \begin{itemize}
+      \item \alert{flat}
+      \item \alert{tilted}
+      \end{itemize}
+    \end{itemize}
+  \item \alert{pixel} still open question
+    \begin{itemize}
+    \item power?
+    \item laser?
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\tkl for phase 2}
+  \begin{itemize}
+  \item \alert{monitor} material budget
+  \item \alert{design} for pixel
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Main functionality}
+  \begin{itemize}
+  \item predict \alert{material} distribution and effects
+  \item predict \alert{resolution}
+  \item generate \alert{modules} definition for mechanical
+  \item generate \alert{XML} files for simulation
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Work done}
+  \begin{itemize}
+  \item \alert{radiation maps}
+    \begin{itemize}
+    \item multiple maps possible
+    \item more precision
+    \end{itemize}
+  \item \alert{material} model
+    \begin{itemize}
+    \item configuration files definition
+    \item internal representation
+    \item routing algorithm
+    \end{itemize}
+  \item small bugfix and improvements
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Old material model}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/oldModel.pdf}
+  \end{center}
+  \begin{itemize}
+  \item Cables material distributed \alert{inside} modules volumes
+  \item Possible to model \alert{cooling pipe} along rods, \alert{manifold} in the flange and bigger cooling pipe out of the barrel
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{New material model}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/newModel.pdf}
+  \end{center}
+  \begin{itemize}
+  \item Cables material in \alert{dedicated} volumes
+  \item More \alert{detailed}
+  \item Better routing \alert{algorithm}
+  \item More \alert{functionalities}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Advantages}
+  \begin{block}{Correct description for \alert{tilted} modules}
+    \begin{itemize}
+    \item In old model the cables were distributed \alert{over} the modules
+      \begin{itemize}
+      \item \alert{Not} feasible in case of tilted modules
+      \end{itemize}
+    \item Now is \alert{possible} to model this design
+    \end{itemize}
+  \end{block}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/tilted.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{New feature}
+  \begin{block}{Model for \alert{pixel-like} materials}
+    \begin{itemize}
+    \item For instance \alert{twisted pair} from modules, electrical optical \alert{transducer}, and \alert{optic fibers} after it
+    \end{itemize}
+  \end{block}
+  \begin{center}
+    \only<1>{\includegraphics[width=\textwidth]{img/electro-opto1.pdf}}
+    \only<2>{\includegraphics[width=\textwidth]{img/electro-opto2.pdf}}
+    \only<3>{\includegraphics[width=\textwidth]{img/electro-opto3.pdf}}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Advantages}
+  \begin{itemize}
+  \item The new algorithm use the \alert{same} underlying c++ objects of the old
+  \item This means that the \alert{XML} export is working as usual
+    \begin{itemize}
+    \item only more \alert{detailed} than before
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Validation}
+  \begin{enumerate}
+  \item \alert{Comparison} between old and new models
+  \item Accurate \alert{tests} new model only with controlled amount of material and exact computation of material amount
+  \end{enumerate}
 \end{frame}
 
 \end{document}
