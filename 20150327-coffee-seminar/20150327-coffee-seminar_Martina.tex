@@ -21,6 +21,7 @@
 \usepackage{relsize}
 %% \usepackage{enumitem}
 
+\usepackage{pgffor}
 
 \usepackage{tikz}
 \usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
@@ -228,12 +229,71 @@
   \item generate \alert{modules} definition for mechanical
   \item generate \alert{XML} files for simulation
   \end{itemize}
+  \begin{block}{Using}
+    \begin{itemize}
+    \item error \alert{propagation}
+    \item \alert{not} use simulations
+      \begin{itemize}
+      \item[$\rightarrow$] \alert{fast} analysis
+      \end{itemize}
+    \end{itemize}
+  \end{block}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Example configuration}
-  
+\begin{frame}[fragile]
+%  \frametitle{Example configuration}
+  \tiny
+  \begin{block}{\pat{.../geometries/Baseline2015}}
+\begin{verbatim}
+Tracker Outer {
+    @include Baseline2015_SupportsTracker.cfg
+
+    // Layout construction parameters
+    zError 70
+    bigDelta 12
+    zOverlap 1
+    phiOverlap 1
+    etaCut 10
+    barrelRotation 1.57079632679
+    smallParity 1
+
+    trackingTags trigger,tracker
+
+    Barrel TBPS {
+      @include Baseline2015_SupportsBarrelTBPS.cfg
+      Layer 1   { smallDelta 3.65 }
+      Layer 2,3 { smallDelta 3.15 }
+      numLayers 3
+      maxZ 1150
+      startZMode modulecenter
+      innerRadius 230
+      outerRadius 508 // 509 or 540
+      width 96
+      length 46.26
+      physicalLength 71
+      phiSegments 2
+    }
+...
+\end{verbatim}
+  \end{block}
+\end{frame}
+
+
+\foreach \n in {1,...,6}{
+  \begin{frame}
+    \begin{center}
+      \includegraphics[width=\textwidth]{img/screenshot\n.png}
+    \end{center}
   \end{frame}
+}
+
+% \foreach \n in {1,...,2}{
+%   \begin{frame}
+%     \begin{center}
+%       \includegraphics[width=\textwidth]{img/screenshotPdf\n.pdf}
+%     \end{center}
+%   \end{frame}
+% }
 
 \begin{frame}
   \frametitle{Work done}
@@ -249,7 +309,7 @@
     \item internal representation
     \item routing algorithm
     \end{itemize}
-  \item small bugfix and improvements
+  \item small bug-fix and improvements
   \end{itemize}
 \end{frame}
 
@@ -271,7 +331,7 @@
   \item Cables material in \alert{dedicated} volumes
   \item More \alert{detailed}
   \item Better routing \alert{algorithm}
-  \item More \alert{functionalities}
+  \item More \alert{functionality}
   \end{itemize}
 \end{frame}
 
@@ -293,7 +353,7 @@
 \begin{frame}{New feature}
   \begin{block}{Model for \alert{pixel-like} materials}
     \begin{itemize}
-    \item For instance \alert{twisted pair} from modules, electrical optical \alert{transducer}, and \alert{optic fibers} after it
+    \item For instance \alert{twisted pair} from modules, electrical optical \alert{transducer}, and \alert{optic fibres} after it
     \end{itemize}
   \end{block}
   \begin{center}
@@ -474,6 +534,8 @@ $\cdots$
 \begin{frame}
   \frametitle{Future features}
   \begin{itemize}
+  \item develop configuration files for \alert{pixel} and
+    \alert{inspect} possibilities
   \item look for an automated testing framework
   \end{itemize}
 \end{frame}
