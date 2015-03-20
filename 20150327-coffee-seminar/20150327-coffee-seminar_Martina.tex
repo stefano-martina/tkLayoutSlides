@@ -25,6 +25,11 @@
 
 \usepackage{tikz}
 \usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+\tikzstyle{arrow1}=[fill=red!40, single arrow, draw, right, shape border rotate=180, font=\small]
+\tikzstyle{arrow2}=[fill=blue!20, single arrow, draw, left, font=\small]
+\tikzstyle{powmat}=[fill=yellow, ellipse, draw]
+\tikzstyle{arrowR}=[fill=red!40, single arrow, draw, right]
+\tikzstyle{arrowL}=[fill=blue!20, single arrow, draw, left, shape border rotate=180]
 
 %\AdvanceDate[1]
 
@@ -190,36 +195,48 @@
       %timeline
       \node [name=timeline, rectangle split, rectangle split parts=18, draw, anchor=center, font=\tiny] at (0,0) {
         $\cdots$\nodepart{two}2012\nodepart{three}2013\nodepart{four}2014\nodepart{five}2015\nodepart{six}2016\nodepart{seven}2017\nodepart{eight}2018\nodepart{nine}2019\nodepart{ten}2020\nodepart{eleven}2021\nodepart{twelve}2022\nodepart{thirteen}2023\nodepart{fourteen}2024\nodepart{fifteen}2025\nodepart{sixteen}$\cdots$\nodepart{seventeen}2035\nodepart{eighteen}$\cdots$};
-      %now arrow
+
+      %arrows
       \draw[shift=(timeline.five east)] plot coordinates{(0,0)}
-      node[fill=red!60, single arrow, draw, right, shape border rotate=180] {Now};
+      node[arrow1] {Now};
+
+      \draw[shift=(timeline.six split west)] plot coordinates{(0,0)}
+      node[arrow2] {New phase1 pixel detector};
+
+      \draw[shift=(timeline.sixteen west)] plot coordinates{(0,0)}
+      node[arrow2] {HL-LHC};
+
       %phase rectangles
       \fill[green, fill opacity=0.2, draw opacity=1] (timeline.six split west) rectangle coordinate[near end] (p1rec) ($ (timeline.twelve split west) + (4,0) $);
       \node at (p1rec) {Phase 1};
 
       \fill[blue, fill opacity=0.2, draw opacity=1] (timeline.fifteen west) rectangle coordinate[near end] (p2rec) ($ (timeline.seventeen split west) + (4,0) $);
       \node at (p2rec) {Phase 2};
+
       %ls rectangles
-      \fill[red, fill opacity=0.2, draw opacity=1] (timeline.two split east) rectangle coordinate[near end] (ls1rec) ($ (timeline.four split east) + (-2,0) $);
+      \fill[red, fill opacity=0.2, draw opacity=1] (timeline.two split east) rectangle coordinate[near end] (ls1rec) ($ (timeline.four split east) + (-3,0) $);
       \node at (ls1rec) {LS1};
 
-      \fill[red, fill opacity=0.2, draw opacity=1] (timeline.eight east) rectangle coordinate[near end] (ls2rec) ($ (timeline.ten east) + (-2,0) $);
+      \fill[red, fill opacity=0.2, draw opacity=1] (timeline.eight east) rectangle coordinate[near end] (ls2rec) ($ (timeline.ten east) + (-3,0) $);
       \node at (ls2rec) {LS2};
 
-      \fill[red, fill opacity=0.2, draw opacity=1] (timeline.twelve split east) rectangle coordinate[near end] (ls3rec) ($ (timeline.fifteen east) + (-2,0) $);
+      \fill[red, fill opacity=0.2, draw opacity=1] (timeline.twelve split east) rectangle coordinate[near end] (ls3rec) ($ (timeline.fifteen east) + (-3,0) $);
       \node at (ls3rec) {LS3};
     \end{tikzpicture}
   \end{center}
 \end{frame}
 
-% \begin{frame}[fragile]
-%   \frametitle{Timeline}
-%   \begin{tikzpicture}[my shape/.style={ rectangle split,
-%     rectangle split parts=#1, draw, anchor=center}]
-%     \node [my shape=3, rectangle split horizontal] at (0,0)
-%     {\cdots\nodepart{two}2012\nodepart{three}2013};
-%   \end{tikzpicture}
-% \end{frame}
+\begin{frame}[fragile]
+  \frametitle{Trade off}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[powmat] (powmatn) at (0,0) {material (power)};
+      \node[arrowR] (mormat) at ($ (powmatn.east) + (0.5,0) $) {MORE};
+      \node[arrowL] (lessmat) at ($ (powmatn.west) - (0.5,0) $) {LESS};
+      \node[below of=mormat] {Higher granularity};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
 
 \begin{frame}
   \frametitle{\tkl}
