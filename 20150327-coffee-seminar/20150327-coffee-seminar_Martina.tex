@@ -24,12 +24,19 @@
 \usepackage{pgffor}
 
 \usepackage{tikz}
-\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc, positioning}
 \tikzstyle{arrow1}=[fill=red!40, single arrow, draw, right, shape border rotate=180, font=\small]
 \tikzstyle{arrow2}=[fill=blue!20, single arrow, draw, left, font=\small]
 \tikzstyle{powmat}=[fill=yellow, ellipse, draw]
+\tikzstyle{underbox}=[fill=yellow!50, rectangle, draw=none]
 \tikzstyle{arrowR}=[fill=red!40, single arrow, draw, right]
 \tikzstyle{arrowL}=[fill=blue!20, single arrow, draw, left, shape border rotate=180]
+\tikzstyle{evidenceNode}=[rectangle, fill=red, fill opacity=0.5, text opacity=1]
+\tikzstyle{evidenceArrow}=[opacity = 0.5, line width = 5pt, color=red]
+\tikzstyle{node1}=[ellipse, fill=red!50]
+\tikzstyle{node2}=[ellipse, fill=green!50]
+\tikzstyle{arrow}=[-latex, line width = 5pt, color=red!50]
+
 
 %\AdvanceDate[1]
 
@@ -226,26 +233,133 @@
   \end{center}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Tracker substitution}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/trackerSubs.pdf}
+  \end{center}
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Trade off}
   \begin{center}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[edge from parent/.style={draw,latex-}, level 1/.style={sibling distance=3cm}, level distance=1cm]
+      %arrows
       \node[powmat] (powmatn) at (0,0) {material (power)};
       \node[arrowR] (mormat) at ($ (powmatn.east) + (0.5,0) $) {MORE};
       \node[arrowL] (lessmat) at ($ (powmatn.west) - (0.5,0) $) {LESS};
-      \node[below of=mormat] {Higher granularity};
+
+      %under more
+      \node[underbox, below of=mormat] (higran) {Higher granularity}
+      child { node {Pileup \textasciitilde 200}}
+      child { node {+ channels}};
+      \node[underbox, below= 1.5cm of higran] (hirad) {Higher radiation}
+      child { node {+ consumption}}
+      child { node {+ cooling}};
+      \node[underbox, below= 1.5cm of hirad] (band) {Bandwidth};
+
+      %under granularity
+      
+
+      %under less
+      \node[underbox, below of=lessmat] (newtec) {New technologies}
+      child { node {Can affect performances} edge from parent[-latex]};
+      \node[underbox, below= 1.5cm of newtec] (lesslay) {Less layers};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Outer tracker Bandwidth}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/bandwidth.pdf}
+  \end{center}
+%\tikz[baseline, overlay]\coordinate (band2) at (5cm,3.5cm){};
+%\tikz[baseline, overlay]\node<2>[evidenceNode] (band1) at (5cm,0cm){Material for optoelectronics transducers};
+%\tikz[baseline, overlay]\path[-latex, bend right, evidenceArrow]<2> (band1) edge (band2);
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pixel Bandwidth}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/optoele.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pixel Powering}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/pixelPower.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Endcaps mechanics (2S \& PS)}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/mechanics1.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Barrel mechanics (2S)}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/mechanics2.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Barrel mechanics (PS)}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/mechanics3.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Barrel mechanics (PS alternative)}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/mechanics4.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Modules}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/modules.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item We know how to build \alert{modules} for outer
+    \begin{itemize}
+    \item not yet for pixel
+    \end{itemize}
+  \item \alert{Stable} and \alert{innovative}
+    \tikz[baseline, overlay] \node[coordinate] (inno1) {};
+    solutions for outer
+  \end{itemize}
+
+  \begin{center}
+    \begin{tikzpicture}
+      \node<2>[node1, text width=3cm] (innoTilt) at (0,0) {Tilted barrel reduce precision};
+      \node<2>[node1, below right=1cm and 0.5cm of innoTilt] (innoTrad) {Trade off};
+      \node<2>[node2, below right=1cm and 0.5cm of innoTrad, text width=3cm] (innoInst) {Instrument for analysing material distribution and performances};
+
+      \path<2>[bend right, arrow] (innoTilt) edge (innoTrad);
+      \path<2>[bend right, arrow] (innoTrad) edge (innoInst);
     \end{tikzpicture}
   \end{center}
 \end{frame}
 
 \begin{frame}
-  \frametitle{\tkl}
+  \frametitle{Objectives}
   \begin{itemize}
-  \item CMS upgrade \alert{phase 2}
-  \item \alert{\tkl} is the tracker design tool
-  \item \alert{material} evaluation
-  \item \alert{performance} analysis
+  \item<1-> evaluate material for \alert{compare} actual with upgrade
+  \item<2-> predict \alert{performances}
   \end{itemize}
+  \begin{center}
+    \includegraphics<3->[width=\textwidth]{img/trackRes.pdf}
+  \end{center}
 \end{frame}
 
 \begin{frame}
@@ -260,7 +374,7 @@
       \item \alert{tilted}
       \end{itemize}
     \end{itemize}
-  \item \alert{pixel} still open question
+  \item \alert{pixel} not well designed model
     \begin{itemize}
     \item power?
     \item laser?
@@ -280,11 +394,12 @@
   \frametitle{Main functionality}
   \begin{itemize}
   \item predict \alert{material} distribution and effects
-  \item predict \alert{resolution}
-  \item generate \alert{modules} definition for mechanical
-  \item generate \alert{XML} files for simulation
+  \item<2-> predict \alert{resolution}
+  \item<3-> generate \alert{modules} definition for mechanical
+  \item<4-> generate \alert{XML} files for simulation
+  \item<5-> evaluate \alert{tilted} barrel and \alert{pixel}
   \end{itemize}
-  \begin{block}{Using}
+  \begin{block}<6->{Using}
     \begin{itemize}
     \item error \alert{propagation}
     \item \alert{not} use simulations
@@ -356,15 +471,17 @@ Tracker Outer {
   \item \alert{radiation maps}
     \begin{itemize}
     \item multiple maps possible
-    \item more precision
+    \item more detail
+    \item<2-> useful for pixel study
     \end{itemize}
-  \item \alert{material} model
+  \item new \alert{material} model
     \begin{itemize}
-    \item configuration files definition
-    \item internal representation
-    \item routing algorithm
+    \item<3-> configuration files definition
+    \item<3-> internal representation
+    \item<3-> routing algorithm
+    \item<4-> useful for tilted barrel and pixel study
     \end{itemize}
-  \item small bug-fix and improvements
+  \item<5-> small bug-fix and improvements
   \end{itemize}
 \end{frame}
 
@@ -587,12 +704,26 @@ $\cdots$
 \end{frame}
 
 \begin{frame}
-  \frametitle{Future features}
-  \begin{itemize}
-  \item develop configuration files for \alert{pixel} and
-    \alert{inspect} possibilities
-  \item look for an automated testing framework
-  \end{itemize}
+  \begin{block}{Conclusions}
+    \begin{itemize}
+    \item new material model \alert{finished}
+    \item<2-> model validated
+    \item<3-> detailed \alert{radiation maps}
+    \end{itemize}    
+  \end{block}
+  \begin{block}<4->{Next steps}
+    \begin{itemize}
+    \item<4-> develop configuration files for \alert{pixel} and
+      \alert{inspect} possibilities
+    \item<5-> physics with \alert{tilted} barrel 
+    \item<6-> study of \alert{pixel} 
+    \item<7-> XML export for tilted modules (Gabrielle)
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  So long, and thanks for all the fish
 \end{frame}
 \end{document}
 
