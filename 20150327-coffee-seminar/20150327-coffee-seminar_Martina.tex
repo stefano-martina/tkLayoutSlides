@@ -25,15 +25,15 @@
 \usepackage{appendixnumberbeamer}
 
 \usepackage{tikz}
-\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc, positioning}
+\usetikzlibrary{intersections, arrows, shapes, decorations.pathreplacing, decorations.pathmorphing, calc, positioning, shadows}
 \tikzstyle{arrow1}=[fill=red!40, single arrow, draw, right, shape border rotate=180, font=\small]
 \tikzstyle{arrow2}=[fill=blue!20, single arrow, draw, left, font=\small]
-\tikzstyle{powmat}=[fill=green!50, ellipse, draw]
-\tikzstyle{underboxr}=[fill=red!20, rectangle, draw=none]
-\tikzstyle{underboxl}=[fill=blue!10, rectangle, draw=none]
+\tikzstyle{powmat}=[fill=green!50, ellipse, draw, drop shadow]
+\tikzstyle{underboxr}=[fill=red!20, rectangle, draw=none, drop shadow]
+\tikzstyle{underboxl}=[fill=blue!10, rectangle, draw=none, drop shadow]
 \tikzstyle{underunderbox}=[fill=yellow!50, rectangle, draw=none]
-\tikzstyle{arrowR}=[fill=red!40, single arrow, draw, right]
-\tikzstyle{arrowL}=[fill=blue!20, single arrow, draw, left, shape border rotate=180]
+\tikzstyle{arrowR}=[fill=red!40, single arrow, draw, right, drop shadow]
+\tikzstyle{arrowL}=[fill=blue!20, single arrow, draw, left, shape border rotate=180, drop shadow]
 \tikzstyle{evidenceNode}=[rectangle, fill=red, fill opacity=0.5, text opacity=1]
 \tikzstyle{evidenceArrow}=[opacity = 0.5, line width = 5pt, color=red]
 \tikzstyle{node1}=[ellipse, fill=red!50]
@@ -212,18 +212,26 @@
       \draw[shift=(timeline.five east)] plot coordinates{(0,0)}
       node[arrow1] {Now};
 
-      \draw[shift=(timeline.six split west)] plot coordinates{(0,0)}
-      node[arrow2] {New phase1 pixel detector};
+      \onslide<2-> {
+        \draw[shift=(timeline.six split west)] plot coordinates{(0,0)}
+        node[arrow2] {New phase1 pixel detector};
+      }
 
-      \draw[shift=(timeline.sixteen west)] plot coordinates{(0,0)}
-      node[arrow2] {HL-LHC};
+      \onslide<3-> {
+        \draw[shift=(timeline.sixteen west)] plot coordinates{(0,0)}
+        node[arrow2] {HL-LHC};
+      }
 
       %phase rectangles
-      \fill[green, fill opacity=0.2, draw opacity=1] (timeline.six split west) rectangle coordinate[near end] (p1rec) ($ (timeline.twelve split west) + (4,0) $);
-      \node at (p1rec) {Phase 1};
+      \onslide<2-> {
+        \fill[green, fill opacity=0.2, draw opacity=1] (timeline.six split west) rectangle coordinate[near end] (p1rec) ($ (timeline.twelve split west) + (4,0) $);
+        \node at (p1rec) {Phase 1};
+      }
 
-      \fill[blue, fill opacity=0.2, draw opacity=1] (timeline.fifteen west) rectangle coordinate[near end] (p2rec) ($ (timeline.seventeen split west) + (4,0) $);
-      \node at (p2rec) {Phase 2};
+      \onslide<3-> {
+        \fill[blue, fill opacity=0.2, draw opacity=1] (timeline.fifteen west) rectangle coordinate[near end] (p2rec) ($ (timeline.seventeen split west) + (4,0) $);
+        \node at (p2rec) {Phase 2};
+      }
 
       %ls rectangles
       \fill[red, fill opacity=0.2, draw opacity=1] (timeline.two split east) rectangle coordinate[near end] (ls1rec) ($ (timeline.four split east) + (-3,0) $);
@@ -250,27 +258,29 @@
   \begin{center}
     \begin{tikzpicture}[edge from parent/.style={draw,latex-}, level 1/.style={sibling distance=3cm}, level distance=1cm]
       %arrows
-      \node[powmat] (powmatn) at (0,0) {material (power)};
-      \node[arrowR] (mormat) at ($ (powmatn.east) + (0.5,0) $) {MORE};
-      \node[arrowL] (lessmat) at ($ (powmatn.west) - (0.5,0) $) {LESS};
+      \node[powmat] (powmatn) at (0,0) {Material (power)};
+      \onslide<2-> { \node[arrowR] (mormat) at ($ (powmatn.east) + (0.5,0) $) {MORE}; }
+      \onslide<5-> { \node[arrowL] (lessmat) at ($ (powmatn.west) - (0.5,0) $) {LESS}; }
 
+      \pause
       %under more
       \node[underboxr, below of=mormat] (higran) {Higher granularity}
       child { node[underunderbox] {Pileup \textasciitilde 200}}
       child { node[underunderbox] {+ channels}};
+      \pause
       \node[underboxr, below= 1.5cm of higran] (hirad) {Higher radiation}
 %      child { node {+ consumption}}
       child { node[underunderbox] {+ cooling}};
+      \pause
       \node[underboxr, below= 1.5cm of hirad] (band) {Bandwidth}
       child { node[underunderbox, text width=2cm] {L1A 750~kHz}}
       child { node[underunderbox, text width=2cm] {L1 readout 40~mHz}};
 
-      %under granularity
-      
-
+      \pause
       %under less
       \node[underboxl, below of=lessmat] (newtec) {New technologies};
 %     child { node {Can affect performance} edge from parent[-latex]};
+      \pause
       \node[underboxl, below= 1.5cm of newtec] (lesslay) {Less layers};
     \end{tikzpicture}
   \end{center}
