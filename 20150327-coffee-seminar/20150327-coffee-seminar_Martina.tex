@@ -14,7 +14,7 @@
 %\usepackage{natbib}
 \usepackage{verbatim}
 \usepackage{appendixnumberbeamer}
-%\usepackage{advdate}
+\usepackage{advdate}
 \usepackage{color}
 \usepackage{multirow}
 
@@ -43,7 +43,7 @@
 \tikzstyle{evidenziaRett}=[evidenzia, draw, font=\huge\bfseries, text opacity = 0.5]%, rounded corners = 5pt]
 
 
-%\AdvanceDate[1]
+\AdvanceDate[2]
 
 %% \setlistdepth{9}
 
@@ -316,13 +316,16 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Target}
   \begin{itemize}
   \item Evaluate \alert{material} amount (aim to a lighter tracker with respect to the current one)
+    \pause
   \item Evaluate tracking \alert{performance}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
+  \frametitle{Status}
   \begin{itemize}
   \item We know how to build \alert{modules} for outer
   \item<2-> not yet for pixel
@@ -384,14 +387,14 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Main functionality}
+  \frametitle{TkLayout main features}
   \begin{itemize}
   \item predict \alert{material} distribution and effects
     \pause
   \item predict \alert{resolution}
     \pause
 %  \item<3-> generate \alert{modules} definition for mechanical
-  \item generate \alert{XML} files for simulation
+  \item generate \alert{CMSSW} input files for simulation (XML with geometry)
     \pause
   \item evaluate \alert{tilted} barrel and \alert{pixel}
   \end{itemize}
@@ -408,15 +411,15 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{TkLayout main features}
+  \frametitle{Importance of material}
   \begin{itemize}
-  \item<1-> evaluate material to \alert{compare} current with upgrade
-  \item<2-> predict \alert{performance}
+  \item material is important for determine the
+    \alert{resolution} of phase2 tracker
   \end{itemize}
   \begin{center}
-    \visible<3>{
+%    \visible<2>{
       \includegraphics[width=\textwidth]{img/trackMatRes.pdf}
-    }
+%    }
     % \includegraphics<3>[width=\textwidth]{img/trackRes.pdf}
     % \visible<4>{
     %   \includegraphics[width=\textwidth]{img/trackMat.pdf}
@@ -491,13 +494,24 @@ Tracker Outer {
 \end{frame}
 
 
-\foreach \n in {1,3,4}{
-  \begin{frame}
-    \begin{center}
-      \includegraphics[width=\textwidth]{img/screenshot\n.png}
-    \end{center}
-  \end{frame}
-}
+%\foreach \n in {1,3,4}{
+\begin{frame}
+\frametitle{Geometry}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/screenshot1.png}
+  \end{center}
+\end{frame}
+%}
+
+\begin{frame}
+\frametitle{Material distribution 1D}
+  \begin{center}
+    \includegraphics[width=\textwidth-4cm]{img/screenshot3.png}
+  \end{center}
+  \begin{center}
+    \includegraphics[width=\textwidth-4cm]{img/screenshot4.png}
+  \end{center}
+\end{frame}
 
 \begin{frame}
   \begin{center}
@@ -506,6 +520,7 @@ Tracker Outer {
 \end{frame}
 
 \begin{frame}
+\frametitle{Material distribution 2D}
   \begin{center}
     \includegraphics[width=\textwidth]{img/screenshot6.png}
   \end{center}
@@ -560,7 +575,7 @@ Tracker Outer {
     \pause
   \item Values are \alert{read} and interpreted directly from the header
     \pause
-  \item created a \alert{manager} that \alert{contains} the maps and use the one
+  \item created a \alert{manager} that \alert{contains} any number of maps and use the one
     with the better resolution for every module
   \end{itemize}
   \visible<6> {
@@ -575,6 +590,7 @@ Tracker Outer {
   \end{center}
   \begin{itemize}
   \item Cables material distributed \alert{inside} modules volumes
+    \pause
   \item Possible to model \alert{cooling pipe} along rods, \alert{manifold} in the flange and bigger cooling pipe out of the barrel
   \end{itemize}
 \end{frame}
@@ -584,9 +600,17 @@ Tracker Outer {
     \includegraphics[width=\textwidth]{img/newModel.pdf}
   \end{center}
   \begin{itemize}
+    \vspace*{-0.6cm}
   \item Cables material in \alert{dedicated} volumes
+    \pause
   \item More \alert{detailed}
+    \pause
   \item Better routing \alert{algorithm}
+    \begin{itemize}
+    \item \alert{automatically} decide where cables go
+    \item avoid \alert{collisions}
+    \end{itemize}
+    \pause
   \item More \alert{functionality}
   \end{itemize}
 \end{frame}
@@ -598,6 +622,7 @@ Tracker Outer {
       \begin{itemize}
       \item \alert{wrong} result in case of tilted modules
       \end{itemize}
+      \pause
     \item Now is \alert{possible} to model this design
     \end{itemize}
   \end{block}
@@ -609,20 +634,24 @@ Tracker Outer {
 \begin{frame}{New feature}
   \begin{block}{Model for \alert{pixel-like} materials}
     \begin{itemize}
+    \item All the situations where material \alert{conversion} are \alert{far} from the modules
+      \pause
     \item For instance \alert{twisted pair} from modules, electrical optical \alert{transducer}, and \alert{optic fibres} after it
     \end{itemize}
   \end{block}
   \begin{center}
-    \only<1>{\includegraphics[width=\textwidth]{img/electro-opto1.pdf}}
-    \only<2>{\includegraphics[width=\textwidth]{img/electro-opto2.pdf}}
-    \only<3>{\includegraphics[width=\textwidth]{img/electro-opto3.pdf}}
+    \only<1>{\includegraphics[width=\textwidth]{img/electro-opto.png}}
+    \only<2>{\includegraphics[width=\textwidth]{img/electro-opto1.pdf}}
+    \only<3>{\includegraphics[width=\textwidth]{img/electro-opto2.pdf}}
+    \only<4>{\includegraphics[width=\textwidth]{img/electro-opto3.pdf}}
   \end{center}
 \end{frame}
 
 \begin{frame}{Advantages}
   \begin{itemize}
   \item The new algorithm use the \alert{same} underlying c++ objects of the old
-  \item This means that the \alert{XML} export is working as usual
+    \pause
+  \item This means that the \alert{export} to \alert{CMSSW} is working as usual
     \begin{itemize}
     \item only more \alert{detailed} than before
     \end{itemize}
@@ -632,12 +661,13 @@ Tracker Outer {
 \begin{frame}{Validation}
   \begin{enumerate}
   \item \alert{Comparison} between old and new models
+    \pause
   \item Accurate \alert{tests} new model only with controlled amount of material and exact computation of material amount
   \end{enumerate}
 \end{frame}
 
 \begin{frame}
-  \begin{block}{Test15}
+  \begin{block}{Test15 $\rightarrow$ \alert{tested in all possible inputs}}
     \alert{$100 g/m$} of \emph{Cu} in the disk of endcap
     \begin{itemize}
     \item \alert{service} true
@@ -647,6 +677,42 @@ Tracker Outer {
     \includegraphics[width=9cm]{img/test15.pdf}
   \end{center}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Material destination, with different \alert{unit} (g, g/m, mm)}
+  \begin{center}
+    \includegraphics[width=0.85\textwidth]{img/materialScheme.png}
+  \end{center}
+  \vspace*{-0.8cm}
+  \begin{columns}[t]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Destination}
+        \begin{itemize}
+        \item In \alert{module}
+          \pause
+        \item In \alert{rods}, a series of modules of barrel with same $\phi$
+          \pause
+        \item In \alert{layers/disks}
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \pause
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Behavior}
+        \begin{itemize}
+        \item \alert{Locally} (also volumes inside module)
+          \pause
+        \item as a \alert{service}
+          \pause
+          \begin{itemize}
+          \item can be \alert{converted} in flange or custom position
+          \end{itemize}
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 
 \begin{frame}
   \fontsize{4.5pt}{6pt}\selectfont
@@ -801,13 +867,16 @@ $\cdots$
       \alert{inspect} possibilities
     \item<5-> tracking \& track-trigger performance with \alert{tilted} barrel (within tkLayout) 
     \item<6-> study of \alert{pixel} (vertex resolution \& impact of material on tracking in general)
-    \item<7-> XML export of tilted barrel (allows studies in full simulation)
+    \item<7-> \alert{export} of tilted barrel to CMSSW (allows studies in full simulation)
     \end{itemize}
   \end{block}
 \end{frame}
 
 \begin{frame}
-  So long, and thanks for all the fish
+  $\mathcal{\qquad SO\ \ LONG,}$
+  \vspace{0.6cm}
+
+  $\mathcal{\qquad \qquad AND\ \ THANKS\ \ FOR\ \ ALL\ \ THE\ \ FISH.}$
 \end{frame}
 
 %BACKUP
