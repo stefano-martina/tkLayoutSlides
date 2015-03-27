@@ -43,7 +43,7 @@
 \tikzstyle{evidenziaRett}=[evidenzia, draw, font=\huge\bfseries, text opacity = 0.5]%, rounded corners = 5pt]
 
 
-\AdvanceDate[2]
+%\AdvanceDate[2]
 
 %% \setlistdepth{9}
 
@@ -254,18 +254,18 @@
 % \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Trade off}
+  \frametitle{Tracker design: material budget}
   \begin{center}
-    \begin{tikzpicture}[edge from parent/.style={draw,latex-}, level 1/.style={sibling distance=3cm}, level distance=1cm]
+    \begin{tikzpicture}[edge from parent/.style={draw,-latex}, level 1/.style={sibling distance=3cm}, level distance=1cm]
       %arrows
-      \node[powmat] (powmatn) at (0,0) {Material (power)};
+      \node[powmat] (powmatn) at (0,0) {Power $\rightarrow$ Material};
       \onslide<2-> { \node[arrowR] (mormat) at ($ (powmatn.east) + (0.5,0) $) {MORE}; }
       \onslide<5-> { \node[arrowL] (lessmat) at ($ (powmatn.west) - (0.5,0) $) {LESS}; }
 
       \pause
       %under more
-      \node[underboxr, below of=mormat] (higran) {Higher granularity}
-      child { node[underunderbox] {Pileup \textasciitilde 200}}
+      \node[underboxr, below of=mormat] (higran) {Pileup \textasciitilde 200}
+      child { node[underunderbox] {Higher granularity}}
       child { node[underunderbox] {+ channels}};
       \pause
       \node[underboxr, below= 1.5cm of higran] (hirad) {Higher radiation}
@@ -273,8 +273,10 @@
       child { node[underunderbox] {+ cooling}};
       \pause
       \node[underboxr, below= 1.5cm of hirad] (band) {Bandwidth}
-      child { node[underunderbox, text width=2cm] {L1A 750~kHz}}
-      child { node[underunderbox, text width=2cm] {L1 readout 40~mHz}};
+      child { node[underunderbox, text width=2cm, font=\tiny] {Trigger
+          rate: complete readout @100$\rightarrow$750~kHz}}
+      child { node[underunderbox, text width=3cm, font=\tiny] {Concur to trigger
+          formation: partial readout @ 40~MHz}};
 
       \pause
       %under less
@@ -287,6 +289,13 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Modules}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/modules2.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}
   \frametitle{Tracker layout}
   \begin{center}
     \includegraphics[width=\textwidth]{img/fullLayout.pdf}
@@ -295,31 +304,41 @@
 \tikz[baseline, overlay]\node<3-> [evidenziaRett, minimum width = 3.7cm, minimum height = 1cm] at (3cm,2.6cm) {TBPS};
 \tikz[baseline, overlay]\node<4-> [evidenziaRett, minimum width = 4.55cm, minimum height = 2.75cm] at (7.5cm,3.5cm) {TEDD};
 \tikz[baseline, overlay]\node<5-> [evidenziaRett, minimum width = 9cm, minimum height = 0.5cm] at (5.3cm,1.6cm) {PIXEL};
+\pause
+\begin{itemize}
+\item Tracker Barrel 2S
+\pause
+\item Tracker Barrel PS
+\pause
+\item Tracker Endcap Double Disk
+\pause
+\item Pixel barrel and endcap $\eta\rightarrow 4$
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Endcaps mechanics (2S \& PS)}
+  \frametitle{TEDD mechanics (2S \& PS)}
   \begin{center}
     \includegraphics[width=\textwidth]{img/mechanics1.pdf}
   \end{center}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Barrel mechanics (2S)}
+  \frametitle{TB2S mechanics (2S)}
   \begin{center}
     \includegraphics[width=\textwidth]{img/mechanics2.pdf}
   \end{center}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Barrel mechanics (PS)}
+  \frametitle{TBPS mechanics (PS)}
   \begin{center}
     \includegraphics[width=\textwidth]{img/mechanics3.pdf}
   \end{center}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Barrel mechanics (PS alternative)}
+  \frametitle{TBPS mechanics  alternative}
   \begin{center}
     \includegraphics[width=\textwidth]{img/mechanics4.pdf}
   \end{center}
@@ -399,6 +418,8 @@
 \begin{frame}
   \frametitle{TkLayout main features}
   \begin{itemize}
+  \item generate detailed \alert{geometry}
+    \pause
   \item predict \alert{material} distribution and effects
     \pause
   \item predict \alert{resolution}
@@ -406,7 +427,6 @@
 %  \item<3-> generate \alert{modules} definition for mechanical
   \item generate \alert{CMSSW} input files for simulation (XML with geometry)
     \pause
-  \item evaluate \alert{tilted} barrel and \alert{pixel}
   \end{itemize}
   \pause
   \begin{block}{Using}
@@ -532,7 +552,10 @@ Tracker Outer {
 \begin{frame}
 \frametitle{Material distribution 2D}
   \begin{center}
-    \includegraphics[width=\textwidth]{img/screenshot6.png}
+    \includegraphics[width=0.70\textwidth]{img/matDist2d.pdf}
+  \end{center}
+  \begin{center}
+    \includegraphics[width=0.70\textwidth]{img/matDist2d-2.pdf}
   \end{center}
 \end{frame}
 
@@ -551,10 +574,11 @@ Tracker Outer {
   \item \alert{radiation maps}
     \pause
     \begin{itemize}
+    \item import of \alert{FLUKA} maps
     \item \alert{multiple} maps possible
     \item more \alert{detail}
       \pause
-    \item useful for \alert{pixel} study
+    \item developed for \alert{pixel} study
     \end{itemize}
     \pause
   \item new \alert{material} model
@@ -564,7 +588,7 @@ Tracker Outer {
     \item internal \alert{representation}
     \item routing \alert{algorithm}
       \pause
-    \item useful for \alert{tilted} barrel and \alert{pixel} study
+    \item developed for \alert{tilted} barrel and \alert{pixel} study
     \end{itemize}
     \pause
   \item small \alert{bug-fix} and improvements
@@ -590,6 +614,8 @@ Tracker Outer {
   \end{itemize}
   \visible<6> {
     \includegraphics[width=\textwidth-0.5cm]{img/irradiation.pdf}
+    \tikz[baseline, overlay]\node [evidenziaRett, minimum width = 9.2cm, minimum height = 3cm] at (-5.7cm,2.8cm) {COARSE};
+    \tikz[baseline, overlay]\node [evidenziaRett, minimum width = 9.2cm, minimum height = 0.5cm] at (-5.8cm,0.8cm) {DETAILED};
   }
 \end{frame}
 
@@ -626,7 +652,7 @@ Tracker Outer {
 \end{frame}
 
 \begin{frame}{Advantages}
-  \begin{block}{Correct description for \alert{tilted} modules}
+  \begin{block}{Correct description for a barrel with \alert{tilted} modules}
     \begin{itemize}
     \item In old model the cables were distributed \alert{inside} the modules
       \begin{itemize}
@@ -670,10 +696,24 @@ Tracker Outer {
 
 \begin{frame}{Validation}
   \begin{enumerate}
-  \item \alert{Comparison} between old and new models
+  \item \alert{Comparison} between old and new models on a simplified
+    tracker model
     \pause
   \item Accurate \alert{tests} new model only with controlled amount of material and exact computation of material amount
   \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Comparison}
+  \begin{itemize}
+  \item \alert{discrepancy} between old/new model is \alert{small}
+  \item mainly due to \alert{limitations} of old model (new model
+    more precise) 
+  \end{itemize}
+  \vspace*{-0.5cm}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{img/compareTab.pdf}
+  \end{center}
 \end{frame}
 
 \begin{frame}
@@ -873,7 +913,7 @@ $\cdots$
   \end{block}
   \begin{block}<4->{Next steps}
     \begin{itemize}
-    \item<4-> develop configuration files for \alert{pixel} and
+    \item<4-> use new features for study the \alert{pixel} tracker and
       \alert{inspect} possibilities
     \item<5-> tracking \& track-trigger performance with \alert{tilted} barrel (within tkLayout) 
     \item<6-> study of \alert{pixel} (vertex resolution \& impact of material on tracking in general)
@@ -924,6 +964,14 @@ $\cdots$
     \includegraphics[width=\textwidth]{img/pixelPower.pdf}
   \end{center}
 \end{frame}
+
+\foreach \n in {1,...,6}{
+  \begin{frame}
+    \begin{center}
+      \includegraphics[width=\textwidth]{img/backup\n.pdf}
+    \end{center}
+  \end{frame}
+}
 
 
 \end{document}
